@@ -1,23 +1,14 @@
 <?php
 
-// namespace App\Http\Middleware;
+namespace App\Http\Middleware;
 
-// use Illuminate\Auth\Middleware\Authenticate as Middleware;
-// use Illuminate\Http\Request;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Http\Request;
 
-// class Authenticate extends Middleware
-// {
-//     /**
-//      * Get the path the user should be redirected to when they are not authenticated.
-//      */
-//     protected function redirectTo(Request $request): ?string
-//     {
-//         // If it's an API request, don't redirect
-//         if ($request->expectsJson()) {
-//             return null;
-//         }
-
-//         // Redirect to backend login
-//         return '/backend/login';
-//     }
-// }
+class Authenticate extends Middleware
+{
+    protected function redirectTo(Request $request): ?string
+    {
+        return $request->expectsJson() ? null : route('backend.login');
+    }
+}

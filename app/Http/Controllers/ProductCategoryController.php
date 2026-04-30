@@ -18,7 +18,7 @@ class ProductCategoryController extends Controller
     {
         $productcategories = ProductCategory::with('media')->get();
         // dd($productcategories);
-        return Inertia::render('PCategory/Index', ['productcategories' => $productcategories]);
+        return Inertia::render('Backend/PCategory/Index', ['productcategories' => $productcategories]);
     }
 
     /**
@@ -26,7 +26,7 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        return Inertia::render('PCategory/CreateUpdate');
+        return Inertia::render('Backend/PCategory/CreateUpdate');
     }
 
     /**
@@ -60,7 +60,7 @@ class ProductCategoryController extends Controller
         // dd($id);
         $productcategories = ProductCategory::find($id);
 
-        return Inertia::render('PCategory/CreateUpdate', ['productcategories' => $productcategories]);
+        return Inertia::render('Backend/PCategory/CreateUpdate', ['productcategories' => $productcategories]);
     }
 
     /**

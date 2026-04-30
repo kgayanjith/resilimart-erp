@@ -20,7 +20,7 @@ const submit = () => {
     form.transform(data => ({
         ...data,
         remember: form.remember ? 'on' : '',
-    })).post(route('login'), {
+    })).post(route('backend.login.post'), {
         onFinish: () => form.reset('password'),
     });
 };

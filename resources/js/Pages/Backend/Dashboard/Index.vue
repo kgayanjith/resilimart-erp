@@ -17,7 +17,7 @@
 
 <script>
 import InputComponent from '@/Components/InputComponent.vue';
-import AppLayout from '@/Layouts/AppLayout.vue';
+import AppLayout from '@/Layouts/SideNavBar.vue';
 import {
   Chart,
   LineController,

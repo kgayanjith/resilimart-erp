@@ -17,7 +17,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::all();
-        return Inertia::render('Customer/Index', ['customers' => $customers]);
+        return Inertia::render('Backend/Customer/Index', ['customers' => $customers]);
     }
 
     /**
@@ -25,7 +25,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Customer/CreateUpdate');
+        return Inertia::render('Backend/Customer/CreateUpdate');
     }
 
     /**
@@ -59,7 +59,7 @@ class CustomerController extends Controller
         // dd($id);
         $customers = Customer::find($id);
 
-        return Inertia::render('Customer/CreateUpdate', ['customers' => $customers]);
+        return Inertia::render('Backend/Customer/CreateUpdate', ['customers' => $customers]);
     }
 
     /**

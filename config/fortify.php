@@ -142,6 +142,24 @@ return [
     | these features or you can even remove all of these if you need to.
     |
     */
+  
+    'guard'      => 'web',
+    'middleware' => ['web'],
+    'prefix'     => 'backend',        // 👈 all fortify routes under /backend
+    'domain'     => null,
+    'home'       => '/backend/dashboard',
+
+    'limiters' => [
+        'login'      => 'login',
+        'two-factor' => 'two-factor',
+    ],
+
+    'views'              => false,    // 👈 disable fortify views, we use custom
+    'username'           => 'email',
+    'email'              => 'email',
+    'lowercase_usernames' => false,
+    'passwords'          => 'users',
+    'password_reset_token_table' => 'password_reset_tokens',
 
     'features' => [
         Features::registration(),

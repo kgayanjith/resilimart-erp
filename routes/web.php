@@ -1,33 +1,45 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Auth/Login', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
+// Route::get('/', function () {
+//     return view('welcome'); // 👈 your frontend home
+// });
 
-   
+// Route::get('/login', function () {
+//     return view('frontend.login'); // 👈 free for frontend login
+// });
 
-    Route::prefix('/backend')->group(function () {
-        
-         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        
 
-        // customer Routes
+Route::prefix('backend')->group(function () {
+
+    Route::get('/', function () {
+        return redirect()->route('backend.login');
+    });
+
+
+    Route::middleware('guest')->group(function () {
+        Route::get('/login', [LoginController::class, 'showLogin'])->name('backend.login');
+        Route::post('/login', [LoginController::class, 'login'])->name('backend.login.post');
+    });
+
+
+    Route::post('/logout', [LoginController::class, 'logout'])
+        ->name('backend.logout')
+        ->middleware('auth');
+
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Customer Routes
         Route::prefix('customer')->group(function () {
             Route::get('/', [CustomerController::class, 'index'])->name('customer.index');
             Route::get('/create', [CustomerController::class, 'create'])->name('customer.create');
@@ -37,7 +49,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             Route::delete('/delete/{customer}', [CustomerController::class, 'destroy'])->name('customer.delete');
         });
 
-        // Product category Routes
+        // Product Category Routes
         Route::prefix('product-category')->group(function () {
             Route::get('/', [ProductCategoryController::class, 'index'])->name('pcategory.index');
             Route::get('/create', [ProductCategoryController::class, 'create'])->name('pcategory.create');

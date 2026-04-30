@@ -18,7 +18,7 @@ class BannerController extends Controller
     {
         $banners = Banner::with('media')->get();
 
-        return Inertia::render('Banners/Index',['banners' => $banners]);
+        return Inertia::render('Backend/Banners/Index',['banners' => $banners]);
     }
 
     /**
@@ -26,7 +26,7 @@ class BannerController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Banners/CreateUpdate');
+        return Inertia::render('Backend/Banners/CreateUpdate');
     }
 
     /**
@@ -59,7 +59,7 @@ class BannerController extends Controller
 
         $banners = Banner::find($id);
 
-        return Inertia::render('Banners/CreateUpdate', ['banners' => $banners]);
+        return Inertia::render('Backend/Banners/CreateUpdate', ['banners' => $banners]);
     }
 
     /**

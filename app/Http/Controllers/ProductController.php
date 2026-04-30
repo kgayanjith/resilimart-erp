@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         $products = Product::with(['media', 'category'])->get();
 
-        return Inertia::render('Products/Index', ['products' => $products]);
+        return Inertia::render('Backend/Products/Index', ['products' => $products]);
     }
 
     /**
@@ -31,7 +31,7 @@ class ProductController extends Controller
     {
         $productcategories = ProductCategory::where(['status' => 1])->get();
         // dd($productcategories);
-        return Inertia::render('Products/CreateUpdate', ['productcategories' => $productcategories]);
+        return Inertia::render('Backend/Products/CreateUpdate', ['productcategories' => $productcategories]);
     }
 
     /**
@@ -70,7 +70,7 @@ class ProductController extends Controller
         $productcategories = ProductCategory::all();
         $products = Product::with('media')->find($id);
         // dd($products);
-        return Inertia::render('Products/CreateUpdate', ['products' => $products, 'productcategories' => $productcategories]);
+        return Inertia::render('Backend/Products/CreateUpdate', ['products' => $products, 'productcategories' => $productcategories]);
     }
 
     /**

@@ -39,7 +39,7 @@ import FileInputComponent from '@/Components/FileInputComponent.vue';
 import HeaderComponent from '@/Components/HeaderComponent.vue';
 import InputComponent from '@/Components/InputComponent.vue';
 import StatusComponent from '@/Components/StatusComponent.vue';
-import AppLayout from '@/Layouts/AppLayout.vue';
+import AppLayout from '@/Layouts/SideNavBar.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
 

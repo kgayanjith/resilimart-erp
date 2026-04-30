@@ -68,7 +68,7 @@ import InputComponent from '@/Components/InputComponent.vue';
 import StatusComponent from '@/Components/StatusComponent.vue';
 import TextAreaComponent from '@/Components/TextAreaComponent.vue';
 import FileInputComponent from '@/Components/FileInputComponent.vue';
-import AppLayout from '@/Layouts/AppLayout.vue';
+import AppLayout from '@/Layouts/SideNavBar.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import SelectCompo from '@/Components/SelectCompo.vue';
 import Swal from 'sweetalert2';

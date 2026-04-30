@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- <title inertia>{{ config('app.name', 'Laravel') }}</title> -->
+    <!-- <title>SCST | Admin & Dashboard</title> -->
+    @if(request()->is('backend*'))
     <title>SCST | Admin & Dashboard</title>
+    @else
+    <title>ResiliMart: Built to Break, Built to Improve</title>
+    @endif
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
