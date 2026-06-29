@@ -10,8 +10,8 @@
                             comfort, and exceptional quality into every aspect of your everyday life.</p>
 
                         <div class="btn-browse-wrapper mt-3">
-                            <Link class="btn-browse-main">Browse Products</Link>
-                            <Link class="btn-browse-arrow">
+                            <Link class="btn-browse-main" :href="route('allproducts')">Browse Products</Link>
+                            <Link class="btn-browse-arrow" :href="route('allproducts')">
                             <i class="fa-solid fa-arrow-right"></i>
                             </Link>
                         </div>

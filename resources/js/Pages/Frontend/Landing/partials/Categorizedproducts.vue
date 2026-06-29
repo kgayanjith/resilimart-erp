@@ -1,11 +1,11 @@
 <template>
-
-        <div class="mt-4 container-fluid px-lg-5">
+    <div class="container-fluid px-lg-5 mt-5">
+        <div v-for="prodsection in productsections" :key="prodsection.id" class="mb-5">
             <div>
-                <h3 class="">All Products</h3>
+                <h3 class="">{{ prodsection.name }}</h3>
             </div>
             <div class="row mt-5">
-                <div class="col-md-3 mb-3" v-for="product in allproducts" :key="product.id">
+                <div class="col-md-3 mb-3" v-for="product in prodsection.products" :key="product.id">
                     <div class="product-wrapper">
                         <Link class="card rounded-4 p-1" href="/product">
                         <img :src="product.media[0]?.original_url" class="card-img-top w-100 rounded-3" alt="...">
@@ -36,9 +36,9 @@
 
                             <div class="buy-bar w-100 mt-3">
                                 <button @click.stop.prevent="addToCart(product)" :disabled="isInCart(product.id)"
-                                class="buy-link w-100">
-                                {{ isInCart(product.id) ? 'Already in Cart' : 'Add to Cart' }}
-                            </button>
+                                    class="buy-link w-100">
+                                    {{ isInCart(product.id) ? 'Already in Cart' : 'Add to Cart' }}
+                                </button>
                             </div>
                         </div>
                         </Link>
@@ -46,32 +46,26 @@
                 </div>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
-import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/vue3';
 
 
 export default {
-    layout: AppLayout,
-
     inject: ['appLayout'],
-    components:{
+    components: {
         Link
     },
-    data() {
-        return {
-
-        }
-    },
     props: {
-        allproducts: Object
+        productsections: Object,
+        cartItems: Array
     },
     mounted() {
-
+        this.isInCart();
     },
-       methods: {
+    methods: {
         isInCart(productId) {
             return this.appLayout.cartItems.some(
                 item => item.id === productId

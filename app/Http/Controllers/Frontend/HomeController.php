@@ -18,7 +18,13 @@ class HomeController extends Controller
       $categories = ProductCategory::where('status', 1)->with('media')->get();
       $latestproducts = Product::where('status', 1)->with('media', 'category')->latest()->take(4)->get();
       $featuredproducts = Product::where('status', 1)->with('media', 'category')->latest()->take(4)->get();
-      $mostorderedproducts = Product::where('status', 1)->with('media', 'category')->take(4)->get();
+      $mostorderedproducts = Product::where('status', 1)->with('media', 'category')->take(4)->inRandomOrder()->get();
+      $productsections = ProductCategory::where('status', 1)->with([
+         'media',
+         'products' => function ($query) {
+            return $query->with('media','category')->limit(4);
+         }
+      ])->take(4)->get();
       // dd($products);
 
       return Inertia::render('Frontend/Landing/Index', [
@@ -26,7 +32,8 @@ class HomeController extends Controller
          'categories' => $categories,
          'latestproducts' => $latestproducts,
          'featuredproducts' => $featuredproducts,
-         'mostorderedproducts' => $mostorderedproducts
+         'mostorderedproducts' => $mostorderedproducts,
+         'productsections' => $productsections
       ]);
    }
 }

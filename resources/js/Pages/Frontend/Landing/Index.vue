@@ -6,7 +6,9 @@
       <Latestproducts :latestproducts="latestproducts" />
       <Mostordered :mostorderedproducts="mostorderedproducts" />
       <Promotionbanner :banners="banners" />
+      <Categorizedproducts :productsections="productsections" />
     </div>
+   
   </AppLayout>
 
 </template>
@@ -18,29 +20,34 @@ import Categories from './partials/Categories.vue';
 import Latestproducts from './partials/Latestproducts.vue';
 import Mostordered from './partials/Mostordered.vue';
 import Promotionbanner from './partials/Promotionbanner.vue';
+import Categorizedproducts from './partials/Categorizedproducts.vue';
 
 
 export default {
+  inject: ['appLayout'],
   components: {
     AppLayout,
     HerosectionSlider,
     Categories,
     Latestproducts,
     Mostordered,
-    Promotionbanner
+    Promotionbanner,
+    Categorizedproducts
   },
   props: {
     banners: Object,
     categories: Object,
-    latestproducts:Object,
-    featuredproducts:Object,
-    mostorderedproducts:Object
-  }
+    latestproducts: Object,
+    featuredproducts: Object,
+    mostorderedproducts: Object,
+    productsections: Object
+  },
+  
 }
 </script>
 
 <style scoped>
-*{
-    font-family: "DM Sans", sans-serif;
+* {
+  font-family: "DM Sans", sans-serif;
 }
 </style>

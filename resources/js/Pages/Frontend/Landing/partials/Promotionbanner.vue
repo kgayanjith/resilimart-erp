@@ -6,7 +6,7 @@
         <div class="banner-wrapper mt-5">
             <div class="swiper mySwiper BannersSlider">
                 <div class="swiper-wrapper">
-                    <Link class="swiper-slide" v-for="banner in banners" :key="banner.id">
+                    <Link class="swiper-slide pb-5" v-for="banner in banners" :key="banner.id">
                     <div class="banner-inner-wrapper">
                         <img :src="banner.media[0]?.original_url" class="w-100 rounded-4" alt="">
                     </div>

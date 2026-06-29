@@ -20,4 +20,9 @@ class ProductCategory extends Model implements HasMedia
         $image = $this->getFirstMedia('productcategories');
         return $image ? $image->getUrl() : null;
     }
+
+    public function products(){
+
+        return $this->hasMany(Product::class);
+    }
 }

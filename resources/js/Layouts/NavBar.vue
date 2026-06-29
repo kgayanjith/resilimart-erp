@@ -1,6 +1,6 @@
 <template>
     <main>
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg sticky-top">
             <div class="container-fluid px-lg-5">
                 <Link class="navbar-brand">
                 <div class="nav-bar-logo-wrapper">
@@ -15,10 +15,12 @@
                 <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item mx-1">
-                            <Link class="nav-link px-3" :class="{ active: route().current('home') }" :href="route('home')">Home</Link>
+                            <Link class="nav-link px-3" :class="{ active: route().current('home') }"
+                                :href="route('home')">Home</Link>
                         </li>
                         <li class="nav-item mx-1">
-                            <Link class="nav-link px-3" :class="{ active: route().current('allproducts') }" :href="route('allproducts')">All Products</Link>
+                            <Link class="nav-link px-3" :class="{ active: route().current('allproducts') }"
+                                :href="route('allproducts')">All Products</Link>
                         </li>
                         <li class="nav-item mx-1">
                             <Link class="nav-link px-3" href="#">Categories</Link>
@@ -30,30 +32,37 @@
                             <Link class="nav-link px-3" href="#">About Us</Link>
                         </li>
                     </ul>
-                    <div class="d-md-none">
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
                 </div>
-                </div>
-                <div class="d-none d-md-block">
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                </div>
+                    <div class="">
+                        <Link class="border p-2 rounded-circle position-relative mx-2" :href="route('cart')">
+                        <i class="fa-solid fa-cart-flatbed text-black"></i>
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-black text-white">
+                            {{ totalItems }}
+                        </span>
+                        </Link>
+                        <Link class="border p-2 rounded-circle mx-2">
+                        <i class="fa-solid fa-user text-black"></i>
+                        </Link>
+                    </div>
+
             </div>
         </nav>
     </main>
 </template>
 
 <script>
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 
 export default {
     components: {
         Link
+    },
+    props: {
+        totalItems: {
+            type: Number,
+            default: 0
+        }
     }
 }
 </script>

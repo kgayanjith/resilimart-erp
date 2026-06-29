@@ -12,7 +12,7 @@
                 <!-- Logo/Header -->
                 <div class="sidebar-header">
                     <div class="logo-icon">
-                        <img src="/Images/resilimart.png" class="w-100" alt="">
+                        <img src="/Images/resilimart.png" height="60" width="150" class="" alt="">
                     </div>
 
                 </div>
