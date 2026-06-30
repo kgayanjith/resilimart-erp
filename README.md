@@ -11,11 +11,11 @@ Software Engineer | BSc (Hons) in Management Information Systems | MSc in Artifi
 
 **ResiliMart** is an MSc Artificial Intelligence final-year project designed as a web-based, ERP-style system that goes beyond routine business operations. While it includes a full e-commerce and operations layer (CRM, sales, product, inventory, warehouse, and material management), its core research focus is an **AI-driven supply chain risk intelligence module**.
 
-Most existing tools — spreadsheets, traditional ERPs, and even commercial risk platforms — are good at tracking what's happening *inside* a business, but blind to *external* disruptions such as storms, strikes, port delays, or sudden regulatory changes. ResiliMart closes this gap by linking real-world risk signals directly to a company's specific suppliers and shipping routes, then issuing early warnings with actionable alternatives.
+Most existing tools spreadsheets, traditional ERPs, and even commercial risk platforms are good at tracking what's happening *inside* a business, but blind to *external* disruptions such as storms, strikes, port delays, or sudden regulatory changes. ResiliMart closes this gap by linking real-world risk signals directly to a company's specific suppliers and shipping routes, then issuing early warnings with actionable alternatives.
 
 ## Problem Statement
 
-Many manufacturing and import-dependent companies rely on international suppliers and shipping routes, but their current tools only reflect internal operations. When a storm, strike, port delay, or supplier shutdown occurs, managers often find out only after production has already slowed or stopped — leading to missed deliveries, emergency costs, and loss of customer trust.
+Many manufacturing and import-dependent companies rely on international suppliers and shipping routes, but their current tools only reflect internal operations. When a storm, strike, port delay, or supplier shutdown occurs, managers often find out only after production has already slowed or stopped leading to missed deliveries, emergency costs, and loss of customer trust.
 
 ## Proposed Solution
 
@@ -46,14 +46,14 @@ ResiliMart runs as two connected web applications sharing a single backend and d
                  │                                             │
    ┌─────────────▼─────────────┐               ┌───────────────▼──────────────┐
    │   Main Domain (Storefront) │               │  Subdomain (Admin Dashboard)  │
-   │   e.g. resilimart.com      │               │  e.g. backend.resilimart.com  │
+   │   e.g. resilimart.com      │               │  e.g. resilimart.com/backend │
    │   Vue.js — customer-facing │               │  Vue.js — internal management │
    │   e-commerce / ordering UI │               │  CRM, inventory, risk console │
    └─────────────────────────────┘               └────────────────────────────┘
 ```
 
 - **Main domain** — public-facing e-commerce style site (browsing, ordering, customer interactions)
-- **Subdomain (e.g. `backend.domain`)** — internal admin dashboard for CRM, sales, inventory, warehouse, material management, user administration, and the AI risk intelligence console
+- **Subdomain (e.g. `domain/backend`)** — internal admin dashboard for CRM, sales, inventory, warehouse, material management, user administration, and the AI risk intelligence console
 - **Shared Laravel API backend** — serves both applications and houses the AI risk-matching logic
 - **MySQL** — single structured relational database for all operational and risk data
 
@@ -100,6 +100,7 @@ This distinguishes ResiliMart from a conventional ERP system by combining enterp
 | Layer | Technology |
 |---|---|
 | Frontend | Vue.js |
+| State Management | Vuex |
 | Backend | Laravel (PHP) |
 | Database | MySQL |
 | UI Styling | Bootstrap + custom CSS |
