@@ -24,7 +24,6 @@ import Categorizedproducts from './partials/Categorizedproducts.vue';
 
 
 export default {
-  inject: ['appLayout'],
   components: {
     AppLayout,
     HerosectionSlider,

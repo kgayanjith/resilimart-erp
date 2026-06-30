@@ -26,7 +26,7 @@
                             <Link class="nav-link px-3" href="#">Categories</Link>
                         </li>
                         <li class="nav-item mx-1">
-                            <Link class="nav-link px-3" href="#">FAQ</Link>
+                            <Link class="nav-link px-3" :class="{ active: route().current('cart') }" :href="route('cart')">Cart</Link>
                         </li>
                         <li class="nav-item mx-1">
                             <Link class="nav-link px-3" href="#">About Us</Link>

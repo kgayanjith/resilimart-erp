@@ -51,29 +51,25 @@
 
 <script>
 import { Link } from '@inertiajs/vue3';
-
+import { mapState, mapActions } from 'vuex';
 
 export default {
-    inject: ['appLayout'],
     components: {
         Link
     },
     props: {
         productsections: Object,
-        cartItems: Array
     },
-    mounted() {
-        this.isInCart();
+    computed: {
+        ...mapState({
+            cartItems: state => state.cartItems
+        })
     },
     methods: {
-        isInCart(productId) {
-            return this.appLayout.cartItems.some(
-                item => item.id === productId
-            );
-        },
+        ...mapActions(['addToCart']),
 
-        addToCart(product) {
-            this.appLayout.addToCart(product);
+        isInCart(productId) {
+            return this.cartItems.some(item => item.id === productId);
         }
     }
 }

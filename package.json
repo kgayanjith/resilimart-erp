@@ -33,6 +33,7 @@
         "sweetalert2": "^11.26.20",
         "swiper": "^12.2.0",
         "vue-filepond": "^7.0.4",
-        "vue-picture-input": "^4.0.2"
+        "vue-picture-input": "^4.0.2",
+        "vuex": "^4.0.2"
     }
 }

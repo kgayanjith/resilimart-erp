@@ -5,13 +5,12 @@
     <h1>Footer</h1>
     <button class="cart-fab" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-label="Open cart">
       <i class="fa-solid fa-bag-shopping"></i>
-      <!-- <span v-if="totalItems > 0" class="cart-badge">{{ totalItems }}</span> -->
       <span v-if="cartItems.length !== 0"
-        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark text-white">
+        class="position-absolute top-0 start-100 translate-middle badge fs-6 rounded-pill bg-dark text-white">
         {{ totalItems }}
       </span>
     </button>
-    <div class="offcanvas offcanvas-end" data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1"
+    <div class="offcanvas offcanvas-end" data-bs-backdrop="true" data-bs-scroll="true" tabindex="-1"
       id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
       <button type="button" class="btn-close m-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       <div class="offcanvas-body position-relative">
@@ -71,16 +70,15 @@
         <button class="btn btn-dark w-100">Checkout</button>
       </div>
     </div>
-    <!-- Toast -->
     <transition name="toast-slide">
-      <div v-if="toast" class="toast-msg">{{ toast_msg }}</div>
+      <div v-if="toast" class="toast-msg">{{ toastMsg }}</div>
     </transition>
   </main>
 </template>
 
 <script>
-import NavBar from './NavBar.vue';
-
+import NavBar from './NavBar.vue'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -88,101 +86,41 @@ export default {
   },
   provide() {
     return {
-      appLayout: this,
-
-
+      appLayout: this
     }
-  },
-  data() {
-    return {
-      cartItems: JSON.parse(sessionStorage.getItem('cart')) || [],
-      toast: false,
-      toast_msg: '',
-      cartCount: JSON.parse(sessionStorage.getItem('cart')).length
-    }
-  },
-  mounted() {
-
-
-  },
-
-  methods: {
-    addToCart(product) {
-      let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-
-      const existing = cart.find(item => item.id === product.id);
-
-      if (existing) {
-        existing.quantity++;
-      } else {
-        cart.push({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          image: product.media[0]?.original_url,
-          quantity: 1
-        });
-      }
-
-      sessionStorage.setItem('cart', JSON.stringify(cart));
-
-      this.cartItems = cart;
-
-      const offcanvas = new bootstrap.Offcanvas(
-        document.getElementById('offcanvasRight')
-      );
-
-      offcanvas.show();
-    },
-    increase(id) {
-      const item = this.cartItems.find(item => item.id === id);
-
-      if (item) {
-        item.quantity++;
-        sessionStorage.setItem('cart', JSON.stringify(this.cartItems));
-      }
-    },
-
-    decrease(id) {
-      const item = this.cartItems.find(item => item.id === id);
-
-      if (item) {
-        if (item.quantity > 1) {
-          item.quantity--;
-        } else {
-          this.removeItem(id);
-          return;
-        }
-
-        sessionStorage.setItem('cart', JSON.stringify(this.cartItems));
-      }
-    },
-
-    removeItem(id) {
-      this.cartItems = this.cartItems.filter(item => item.id !== id);
-
-      sessionStorage.setItem('cart', JSON.stringify(this.cartItems));
-      this.toast_msg = 'Item removed from the cart'
-      this.toast = true;
-      setTimeout(() => {
-        this.toast = false;
-        this.toast_msg = ''
-      }, 2000);
-    },
-
   },
   computed: {
-    totalItems() {
-      return this.cartItems.length;
-    },
+    ...mapState({
+      cartItems: (state) => state.cartItems,
+      toast: (state) => state.toast,
+      toastMsg: (state) => state.toastMsg,
+      cartDrawerOpen: (state) => state.cartDrawerOpen
+    }),
+    ...mapGetters(['totalItems', 'subTotal'])
+  },
+  watch: {
+    cartDrawerOpen(isOpen) {
+      if (isOpen) {
+        const el = document.getElementById('offcanvasRight')
+        const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(el)
+        offcanvas.show()
+        this.$store.commit('CLOSE_CART_DRAWER')
+      }
+    }
+  },
+  methods: {
+    ...mapActions(['removeItem']),
 
-    subTotal() {
-      return this.cartItems.reduce((total, item) => {
-        return total + (item.price * item.quantity);
-      }, 0);
+    addToCart(product) {
+      this.$store.dispatch('addToCart', product)
+    },
+    increase(id) {
+      this.$store.dispatch('increaseItem', id)
+    },
+    decrease(id) {
+      this.$store.dispatch('decreaseItem', id)
     }
   }
-
 }
 </script>
 

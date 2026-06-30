@@ -6,7 +6,7 @@
         <div class="row mt-5">
             <div class="col-md-3 mb-3" v-for="product in mostorderedproducts" :key="product.id">
                 <div class="product-wrapper">
-                    <Link class="card rounded-4 p-1">
+                    <Link class="card rounded-4 p-1" @click="productView(product.id)">
                     <img :src="product.media[0]?.original_url" class="card-img-top w-100 rounded-3" alt="...">
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-2">
@@ -49,28 +49,28 @@
 
 <script>
 import { Link } from '@inertiajs/vue3';
-
+import { mapState, mapActions } from 'vuex';
 
 export default {
     components: {
         Link
     },
-    inject: ['appLayout'],
     props: {
         mostorderedproducts: Object,
     },
-    mounted() {
-        this.isInCart();
+    computed: {
+        ...mapState({
+            cartItems: state => state.cartItems
+        })
     },
     methods: {
-        isInCart(productId) {
-            return this.appLayout.cartItems.some(
-                item => item.id === productId
-            );
-        },
+        ...mapActions(['addToCart']),
 
-        addToCart(product) {
-            this.appLayout.addToCart(product);
+        isInCart(productId) {
+            return this.cartItems.some(item => item.id === productId);
+        },
+        productView(id) {
+            this.$inertia.visit(route('product.view', id));
         }
     }
 }
