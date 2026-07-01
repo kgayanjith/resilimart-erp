@@ -4,10 +4,10 @@
             <div class="cart-container container-fluid px-4 px-lg-5">
                 <div class="row g-0">
 
-                        <div class="items-header mt-3">
-                            <h1 class="cart-title">Your Cart</h1>
-                            <span class="item-count">{{ totalItems }} items</span>
-                        </div>
+                    <div class="items-header mt-5">
+                       <h3 class="">Your Cart</h3>
+                        <span class="item-count">{{ totalItems }} items</span>
+                    </div>
                     <div class="col-lg-6 col-xl-7 p-4 custom-bg-setting rounded rounded-3 border-0">
 
                         <div class="items-list">
@@ -21,19 +21,20 @@
                                     </div>
 
                                 </div>
-                                <div v-else v-for="item in cartItems" :key="item.id" class="cart-item border-0 bg-white px-3 rounded mb-2">
-                         
+                                <div v-else v-for="item in cartItems" :key="item.id"
+                                    class="cart-item border-0 bg-white px-3 rounded mb-2 shadow-sm">
+
                                     <div class="item-image-wrap">
                                         <img :src="item.image" :alt="item.name" class="item-image" />
                                     </div>
 
-                     
+
                                     <div class="item-details">
                                         <div class="item-top">
                                             <div class="mb-2">
                                                 <p class="item-category item-decription">{{ item.category }}</p>
                                                 <h3 class="item-name">{{ item.name }}</h3>
-                                                  <p class="item-category w-50 two-line-clamp">{{ item.description }}</p>
+                                                <p class="item-category w-50 two-line-clamp">{{ item.description }}</p>
                                             </div>
                                             <button @click="removeItem(item.id)" class="btn btn-sm" style="width:28px; height:28px; border:1px solid #fca5a5;
                border-radius:6px; color:#ef4444; background:transparent;
@@ -51,8 +52,9 @@
                                             </div>
 
                                             <div class="item-price-wrap">
-                                                <span class="item-price fs-6">Rs {{ (item.price * item.quantity).toFixed(2)
-                                                }}</span>
+                                                <span class="item-price fs-6">Rs {{ (item.price *
+                                                    item.quantity).toFixed(2)
+                                                    }}</span>
                                             </div>
                                         </div>
                                     </div>

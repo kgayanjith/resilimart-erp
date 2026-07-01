@@ -1,8 +1,10 @@
 <template>
   <main>
     <NavBar :total-items="totalItems" />
-    <slot />
-    <h1>Footer</h1>
+   <div class="mt-5 pt-4">
+     <slot />
+   </div>
+    <Footer />
     <button class="cart-fab" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-label="Open cart">
       <i class="fa-solid fa-bag-shopping"></i>
       <span v-if="cartItems.length !== 0"
@@ -42,7 +44,7 @@
             </div>
             <div style=" display:flex; flex-direction:column; align-items:flex-end; gap:8px; flex-shrink:0;">
               <span style="font-size:14px; font-weight:500;">
-                Rs {{ item.price * item.quantity }}
+                Rs {{ (item.price * item.quantity).toFixed(2) }}
               </span>
               <button @click="removeItem(item.id)" class="btn btn-sm" style="width:28px; height:28px; border:1px solid #fca5a5;
                border-radius:6px; color:#ef4444; background:transparent;
@@ -64,7 +66,7 @@
             Items: <strong style="color:#111827;">{{ totalItems }}</strong>
           </span>
           <span style="font-size:15px; font-weight:500;">
-            Subtotal: Rs {{ subTotal }}
+            Subtotal: Rs {{ subTotal.toFixed(2) }}
           </span>
         </div>
         <button class="btn btn-dark w-100">Checkout</button>
@@ -77,12 +79,14 @@
 </template>
 
 <script>
+import Footer from './Footer.vue';
 import NavBar from './NavBar.vue'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    Footer
   },
   provide() {
     return {

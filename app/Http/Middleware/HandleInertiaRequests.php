@@ -40,6 +40,9 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'customerAuth' => [
+                'user' => $request->user('customer'),
+            ],
         ];
     }
 }
