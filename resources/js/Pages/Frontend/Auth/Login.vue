@@ -101,7 +101,7 @@ const submit = () => {
 
             <button
               type="submit"
-              class="btn btn-mono w-100"
+              class="btn btn-mono w-100 rounded-4"
               :disabled="form.processing"
             >
               {{ form.processing ? 'Signing in…' : 'Sign in' }}

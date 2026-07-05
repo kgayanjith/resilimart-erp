@@ -149,7 +149,7 @@ function submit() {
 
             <button
               type="submit"
-              class="btn btn-mono w-100 mt-1"
+              class="btn btn-mono w-100 mt-1 rounded-4"
               :disabled="form.processing"
             >
               {{ form.processing ? 'Creating account…' : 'Create account' }}

@@ -22,6 +22,7 @@ Route::prefix('/')->group(function () {
 
 
     Route::middleware('auth:customer')->group(function () {
+        Route::post('/logout', [CustomerAuthController::class, 'logoutfrontend'])->name('logout.frontend');
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');

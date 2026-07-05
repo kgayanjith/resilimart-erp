@@ -248,13 +248,14 @@
         <!-- Main Content Area -->
         <div class="main-wrapper">
             <!-- Top Navigation Bar -->
+            
             <header class="top-navbar shadow-sm mx-3 mt-3 rounded-4">
                 <div class="d-flex align-items-center justify-content-between">
                     <button @click="isSidebarOpen = true" class="btn btn-link d-lg-none p-0">
                         <i class="fa-solid fa-bars fs-3 text-dark"></i>
                     </button>
                     <div class="d-none d-lg-block">
-
+                        <Breadcrumb  />
                     </div>
                     <div class="d-flex align-items-center profile">
                         <!-- <button class="btn btn-link position-relative p-2">
@@ -310,6 +311,7 @@
 </template>
 
 <script>
+import Breadcrumb from '@/Components/Breadcrumb.vue';
 import { Link, router } from '@inertiajs/vue3';
 
 
@@ -323,6 +325,7 @@ export default {
     },
     components: {
         Link,
+        Breadcrumb
     },
     methods: {
         logout() {

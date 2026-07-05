@@ -2,13 +2,13 @@
  <footer class="app-footer border-top">
   <div class="watermark">RESILIMART.</div>
  
-  <div class="container footer-content py-5">
+  <div class="container footer-content pt-5 pb-2">
  
     <div class="row pb-5 border-bottom border-light-10 gy-4">
  
       <!-- Brand -->
       <div class="col-12 col-lg-3">
-        <img src="/Images/resilimart-black.png" width="220" alt="">
+        <img src="/Images/resilimart-black.png" width="170" alt="">
         <p class="text-muted-light mt-2">
           Independent studio designing calm, considered products for teams who ship every day.
         </p>
@@ -64,11 +64,11 @@
     </div>
  
     <!-- Bottom bar -->
-    <div class="row align-items-center pt-4 gy-3">
+    <div class="row align-items-center pt-2">
  
       <div class="col-12 col-md-6">
         <div class="d-flex flex-wrap align-items-center gap-3">
-          <span class="text-faint small">© 2026 Northline Studio. All rights reserved.</span>
+          <span class="text-faint small">© 2026 ResiliMart. All rights reserved.</span>
           <a href="#" class="text-muted-light small text-decoration-none">Privacy</a>
           <a href="#" class="text-muted-light small text-decoration-none">Terms</a>
           <a href="#" class="text-muted-light small text-decoration-none">Cookies</a>

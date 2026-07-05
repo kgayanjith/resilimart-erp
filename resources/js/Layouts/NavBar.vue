@@ -38,7 +38,7 @@
                     <Link class="border p-2 rounded-circle position-relative mx-2" :href="route('cart')">
                     <i class="fa-solid fa-cart-flatbed text-black"></i>
                     <span
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-black text-white">
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-black text-white" v-if="totalItems > 0">
                         {{ totalItems }}
                     </span>
                     </Link>

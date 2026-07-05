@@ -504,11 +504,11 @@ table.dataTable.table {
 }
 
 .table-responsive {
-    overflow: visible !important; 
+    overflow: visible !important;
 }
 
 .dataTables_scrollBody {
-    overflow: visible !important; 
+    overflow: visible !important;
 }
 
 .dropdown-menu {
@@ -538,20 +538,50 @@ table.dataTable th {
 .dt-paging .dt-paging-button.current:focus,
 .dt-paging .dt-paging-button.current:active,
 .dt-paging .dt-paging-button.current:disabled {
-  border: 1.5px solid #000 !important;
-  background: #000 !important;
-  color: #fff !important;
-  opacity: 1 !important;                 
-  -webkit-text-fill-color: #fff !important;
+    border: 1.5px solid #000 !important;
+    background: #000 !important;
+    color: #fff !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #fff !important;
 }
 
-.dt-layout-row .dt-layout-cell.dt-layout-start .dt-info{
+.dt-layout-row .dt-layout-cell.dt-layout-start .dt-info {
     display: none !important;
 }
-.product-description{
+.product-description {
     font-size: 13px !important;
     max-width: 100px !important;
 }
-.description-datatable{
+.description-datatable {
     max-width: 100px !important;
+}
+.stat-card {
+    border-radius: 14px;
+    transition: transform 0.15s ease;
+    border: 1.5px solid #e9e9e9 !important;
+}
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.bg-purple { background-color: #6e42c118 !important; }
+.text-purple { color: #6f42c1 !important; }
+.bg-teal { background-color: #20c99624 !important; }
+.text-teal { color: #20c997 !important; }
+.bg-orange { background-color: #fd7d141c !important; }
+.text-orange { color: #fd7e14 !important; }
+
+.stat-card-wrapper h4, .stat-card-wrapper h5{
+    font-weight: 500 !important;
 }
