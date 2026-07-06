@@ -1,6 +1,7 @@
 <template>
     <main>
-        <nav class="navbar navbar-expand-lg floating-nav mx-5 border rounded-4 mt-2" :class="{ 'has-entered': hasEntered, 'is-scrolled': isScrolled }">
+        <nav class="navbar navbar-expand-lg floating-nav mx-5 border rounded-4 mt-2"
+            :class="{ 'has-entered': hasEntered, 'is-scrolled': isScrolled }">
             <div class="container-fluid px-lg-5">
                 <Link class="navbar-brand">
                 <div class="nav-bar-logo-wrapper">
@@ -34,17 +35,58 @@
                         </li>
                     </ul>
                 </div>
-                <div class="">
-                    <Link class="border p-2 rounded-circle position-relative mx-2" :href="route('cart')">
-                    <i class="fa-solid fa-cart-flatbed text-black"></i>
-                    <span
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-black text-white" v-if="totalItems > 0">
-                        {{ totalItems }}
-                    </span>
-                    </Link>
-                    <Link class="border p-2 rounded-circle mx-2" :href="route('profile.edit')">
-                    <i class="fa-solid fa-user text-black"></i>
-                    </Link>
+                <div class=" d-flex align-items-center">
+                    <div>
+                        <Link class="border p-2 rounded-circle position-relative mx-2" :href="route('cart')">
+                        <i class="fa-solid fa-cart-flatbed text-black"></i>
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-black text-white"
+                            v-if="totalItems > 0">
+                            {{ totalItems }}
+                        </span>
+                        </Link>
+                    </div>
+                    <div class="mx-2">
+
+
+                        <div class="dropdown" v-if="$page.props.customerAuth.user">
+                            <div class="dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown"
+                                aria-expanded="false" style="cursor: pointer;">
+                                <div class="avatar-nav">KG</div>
+                            </div>
+                            <ul class="dropdown-menu dropdown-menu-end mt-3 border-0 p-2 shadow rounded-4">
+                                <li class="dropdown-header">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-nav me-2">KG</div>
+                                        <div>
+                                            <div class="fw-bold text-black">{{ $page.props.customerAuth.user.name }}</div>
+                                            <small class="text-muted">{{ $page.props.customerAuth.user.email }}</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <Link class="dropdown-item">Profile</Link>
+                                </li>
+                                <li>
+                                    <Link class="dropdown-item">Orders</Link>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <Link class="dropdown-item text-danger" @click="logout()">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        <Link class="border p-2 rounded-circle " :href="route('login.frontend')" v-else>
+                        <i class="fa-solid fa-user text-black"></i>
+                        </Link>
+                    </div>
                 </div>
 
             </div>
@@ -53,8 +95,7 @@
 </template>
 
 <script>
-import { Link, usePage } from '@inertiajs/vue3';
-
+import { Link, router, usePage } from '@inertiajs/vue3';
 export default {
     components: {
         Link
@@ -65,7 +106,7 @@ export default {
             default: 0
         }
     },
-      data() {
+    data() {
         return {
             isScrolled: false,
             hasEntered: false
@@ -85,6 +126,16 @@ export default {
         handleScroll() {
             // subtle bg/shadow once page has scrolled a little — navbar itself never hides
             this.isScrolled = window.scrollY > 20
+        },
+        logout() {
+            router.post(route('logout.frontend'), {}, {
+                onSuccess: () => {
+                    window.history.pushState(null, '', '/login')
+                    window.onpopstate = function () {
+                        window.history.pushState(null, '', '/login')
+                    }
+                }
+            })
         }
     }
 }
@@ -109,5 +160,20 @@ export default {
 
 .floating-nav.has-entered {
     transform: translateY(0);
+}
+
+.avatar-nav {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #0a0a0a;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
 }
 </style>

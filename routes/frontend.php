@@ -18,7 +18,7 @@ Route::prefix('/')->group(function () {
     Route::get('/login', [CustomerAuthController::class, 'index'])->name('login.frontend');
     Route::post('/login', [CustomerAuthController::class, 'loginfrontend'])->name('login.frontend.post');
     Route::get('/register', [CustomerAuthController::class, 'createRegister'])->name('register.frontend');
-    Route::post('/register', [CustomerAuthController::class, 'register']);
+    Route::post('/register', [CustomerAuthController::class, 'register'])->name('register.frontend.post');
 
 
     Route::middleware('auth:customer')->group(function () {

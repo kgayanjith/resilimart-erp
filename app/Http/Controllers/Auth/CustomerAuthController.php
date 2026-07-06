@@ -72,7 +72,7 @@ class CustomerAuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect('login.frontend');
+        return redirect()->route('login.frontend');
     }
 
     public function logoutfrontend(Request $request)

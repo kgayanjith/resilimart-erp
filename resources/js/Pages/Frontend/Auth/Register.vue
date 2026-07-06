@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3'
+import { ref, onMounted } from 'vue'
 
 const form = useForm({
   name: '',
@@ -10,6 +11,21 @@ const form = useForm({
   password_confirmation: '',
 })
 
+const addressInput = ref(null)
+
+onMounted(() => {
+  if (!window.google) return
+
+  const autocomplete = new google.maps.places.Autocomplete(addressInput.value, {
+    types: ['address'],
+  })
+
+  autocomplete.addListener('place_changed', () => {
+    const place = autocomplete.getPlace()
+    form.address = place.formatted_address || place.name || ''
+  })
+})
+
 function submit() {
   form.post('/register', {
     onFinish: () => form.reset('password', 'password_confirmation'),
@@ -18,156 +34,114 @@ function submit() {
 </script>
 
 <template>
- <main>
-     <Head title="Create account" />
+  <main>
 
-  <div class="auth-wrapper">
-    <div class="row g-0 min-vh-100">
+    <Head title="Create account" />
 
-      <!-- Left panel — brand / black -->
-      <div class="col-lg-5 d-none d-lg-flex brand-panel flex-column justify-content-between p-5">
-        <div class="watermark">RM</div>
+    <div class="auth-wrapper">
+      <div class="row g-0 min-vh-100">
 
-        <div class="position-relative">
-          <p class="brand-mark mb-0">ResiliMart</p>
+        <!-- Left panel — brand / black -->
+        <div class="col-lg-5 d-none d-lg-flex brand-panel flex-column justify-content-between p-5">
+          <div class="watermark">RM</div>
+
+          <div class="position-relative">
+            <p class="brand-mark mb-0">ResiliMart</p>
+          </div>
+
+          <div class="position-relative">
+            <p class="quote mb-3">
+              "The best time to spot a disruption is before it becomes
+              an emergency. Set up your account and start watching."
+            </p>
+            <p class="quote-sub mb-0">Supply Chain Risk Intelligence</p>
+          </div>
         </div>
 
-        <div class="position-relative">
-          <p class="quote mb-3">
-            "The best time to spot a disruption is before it becomes
-            an emergency. Set up your account and start watching."
-          </p>
-          <p class="quote-sub mb-0">Supply Chain Risk Intelligence</p>
-        </div>
-      </div>
+        <!-- Right panel — form / white -->
+        <div class="col-lg-7 d-flex align-items-center justify-content-center bg-white p-4 p-md-5">
+          <div class="form-panel w-100">
 
-      <!-- Right panel — form / white -->
-      <div class="col-lg-7 d-flex align-items-center justify-content-center bg-white p-4 p-md-5">
-        <div class="form-panel w-100">
+            <p class="mobile-brand d-lg-none mb-4">ResiliMart</p>
 
-          <p class="mobile-brand d-lg-none mb-4">ResiliMart</p>
+            <h1 class="h3 fw-medium mb-2">Create your account</h1>
+            <p class="text-muted-dark mb-4">Set up access to your dashboard and risk alerts.</p>
 
-          <h1 class="h3 fw-medium mb-2">Create your account</h1>
-          <p class="text-muted-dark mb-4">Set up access to your dashboard and risk alerts.</p>
+            <form @submit.prevent="submit" novalidate>
 
-          <form @submit.prevent="submit" novalidate>
-
-            <div class="mb-4">
-              <label for="name" class="form-label label-sm">Full name</label>
-              <input
-                id="name"
-                type="text"
-                v-model="form.name"
-                class="form-control form-control-mono"
-                :class="{ 'is-invalid': form.errors.name }"
-                placeholder="Jane Doe"
-                autofocus
-                autocomplete="name"
-              />
-              <div v-if="form.errors.name" class="invalid-feedback d-block">
-                {{ form.errors.name }}
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <label for="email" class="form-label label-sm">Email address</label>
-              <input
-                id="email"
-                type="email"
-                v-model="form.email"
-                class="form-control form-control-mono"
-                :class="{ 'is-invalid': form.errors.email }"
-                placeholder="you@company.com"
-                autocomplete="username"
-              />
-              <div v-if="form.errors.email" class="invalid-feedback d-block">
-                {{ form.errors.email }}
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <label for="phone" class="form-label label-sm">Phone number</label>
-              <input
-                id="phone"
-                type="text"
-                v-model="form.phone"
-                class="form-control form-control-mono"
-                :class="{ 'is-invalid': form.errors.phone }"
-                placeholder="+94 71 234 5678"
-                autocomplete="tel"
-              />
-              <div v-if="form.errors.phone" class="invalid-feedback d-block">
-                {{ form.errors.phone }}
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <label for="address" class="form-label label-sm">Address</label>
-              <textarea
-                id="address"
-                v-model="form.address"
-                class="form-control form-control-mono"
-                :class="{ 'is-invalid': form.errors.address }"
-                rows="2"
-                placeholder="Street, city, country"
-                autocomplete="street-address"
-              ></textarea>
-              <div v-if="form.errors.address" class="invalid-feedback d-block">
-                {{ form.errors.address }}
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-6 mb-4">
-                <label for="password" class="form-label label-sm">Password</label>
-                <input
-                  id="password"
-                  type="password"
-                  v-model="form.password"
-                  class="form-control form-control-mono"
-                  :class="{ 'is-invalid': form.errors.password }"
-                  placeholder="••••••••"
-                  autocomplete="new-password"
-                />
-                <div v-if="form.errors.password" class="invalid-feedback d-block">
-                  {{ form.errors.password }}
+              <div class="mb-4">
+                <label for="name" class="form-label label-sm">Full name</label>
+                <input id="name" type="text" v-model="form.name" class="form-control form-control-mono"
+                  :class="{ 'is-invalid': form.errors.name }" placeholder="Jane Doe" autofocus autocomplete="name" />
+                <div v-if="form.errors.name" class="invalid-feedback d-block">
+                  {{ form.errors.name }}
                 </div>
               </div>
 
-              <div class="col-6 mb-4">
-                <label for="password_confirmation" class="form-label label-sm">Confirm</label>
-                <input
-                  id="password_confirmation"
-                  type="password"
-                  v-model="form.password_confirmation"
-                  class="form-control form-control-mono"
-                  placeholder="••••••••"
-                  autocomplete="new-password"
-                />
+              <div class="mb-4">
+                <label for="email" class="form-label label-sm">Email address</label>
+                <input id="email" type="email" v-model="form.email" class="form-control form-control-mono"
+                  :class="{ 'is-invalid': form.errors.email }" placeholder="you@company.com" autocomplete="username" />
+                <div v-if="form.errors.email" class="invalid-feedback d-block">
+                  {{ form.errors.email }}
+                </div>
               </div>
-            </div>
 
-            <button
-              type="submit"
-              class="btn btn-mono w-100 mt-1 rounded-4"
-              :disabled="form.processing"
-            >
-              {{ form.processing ? 'Creating account…' : 'Create account' }}
-            </button>
+              <div class="mb-4">
+                <label for="phone" class="form-label label-sm">Phone number</label>
+                <input id="phone" type="text" v-model="form.phone" class="form-control form-control-mono"
+                  :class="{ 'is-invalid': form.errors.phone }" placeholder="+94 71 234 5678" autocomplete="tel" />
+                <div v-if="form.errors.phone" class="invalid-feedback d-block">
+                  {{ form.errors.phone }}
+                </div>
+              </div>
 
-          </form>
+              <div class="mb-4">
+                <label for="address" class="form-label label-sm">Address</label>
+                <input id="address" ref="addressInput" type="text" v-model="form.address"
+                  class="form-control form-control-mono" :class="{ 'is-invalid': form.errors.address }"
+                  placeholder="Street, city, country" autocomplete="off" />
+                <div v-if="form.errors.address" class="invalid-feedback d-block">
+                  {{ form.errors.address }}
+                </div>
+                
+              </div>
 
-          <p class="mt-4 text-muted-dark small">
-            Already have an account?
-            <Link :href="route('login.frontend')" class="link-mono fw-semibold">Sign in</Link>
-          </p>
+              <div class="row">
+                <div class="col-6 mb-4">
+                  <label for="password" class="form-label label-sm">Password</label>
+                  <input id="password" type="password" v-model="form.password" class="form-control form-control-mono"
+                    :class="{ 'is-invalid': form.errors.password }" placeholder="••••••••"
+                    autocomplete="new-password" />
+                  <div v-if="form.errors.password" class="invalid-feedback d-block">
+                    {{ form.errors.password }}
+                  </div>
+                </div>
 
+                <div class="col-6 mb-4">
+                  <label for="password_confirmation" class="form-label label-sm">Confirm</label>
+                  <input id="password_confirmation" type="password" v-model="form.password_confirmation"
+                    class="form-control form-control-mono" placeholder="••••••••" autocomplete="new-password" />
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-mono w-100 mt-1 rounded-4" :disabled="form.processing">
+                {{ form.processing ? 'Creating account…' : 'Create account' }}
+              </button>
+
+            </form>
+
+            <p class="mt-4 text-muted-dark small">
+              Already have an account?
+              <Link :href="route('login.frontend')" class="link-mono fw-semibold">Sign in</Link>
+            </p>
+
+          </div>
         </div>
-      </div>
 
+      </div>
     </div>
-  </div>
- </main>
+  </main>
 </template>
 
 <style scoped>
@@ -276,6 +250,7 @@ function submit() {
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s;
 }
+
 .link-mono:hover {
   color: #0a0a0a;
   border-bottom-color: #0a0a0a;
@@ -293,10 +268,12 @@ function submit() {
   font-weight: 600;
   transition: opacity 0.2s;
 }
+
 .btn-mono:hover:not(:disabled) {
   opacity: 0.82;
   color: #ffffff;
 }
+
 .btn-mono:disabled {
   opacity: 0.5;
 }
