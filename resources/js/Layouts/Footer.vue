@@ -55,10 +55,7 @@
       <div class="col-12 col-lg-3">
         <p class="col-title mb-3">Stay in the loop</p>
         <p class="text-muted-light small">One short email a month. No noise, unsubscribe anytime.</p>
-        <form class="d-flex gap-2 align-items-center">
-          <input type="email" class="form-control form-control-footer" placeholder="you@email.com" />
-          <button type="submit" class="btn btn-footer">Join</button>
-        </form>
+       
       </div>
  
     </div>

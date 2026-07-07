@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\CustomerAuthController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\ProductViewController;
 use App\Http\Controllers\Frontend\ProfileController;
@@ -19,7 +20,7 @@ Route::prefix('/')->group(function () {
     Route::post('/login', [CustomerAuthController::class, 'loginfrontend'])->name('login.frontend.post');
     Route::get('/register', [CustomerAuthController::class, 'createRegister'])->name('register.frontend');
     Route::post('/register', [CustomerAuthController::class, 'register'])->name('register.frontend.post');
-
+    Route::get('/about-us', [PageController::class, 'aboutus'])->name('aboutus');
 
     Route::middleware('auth:customer')->group(function () {
         Route::post('/logout', [CustomerAuthController::class, 'logoutfrontend'])->name('logout.frontend');

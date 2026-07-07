@@ -5,24 +5,27 @@
                 <div class="row g-0">
 
                     <div class="items-header mt-5">
-                       <h3 class="">Your Cart</h3>
+                        <h3 class="">Your Cart</h3>
                         <span class="item-count">{{ totalItems }} items</span>
                     </div>
-                    <div class="col-lg-6 col-xl-7 p-4 custom-bg-setting rounded rounded-3 border-0">
+                    <div class="col-lg-6 col-xl-7 p-4 rounded rounded-3 ">
 
                         <div class="items-list">
                             <transition-group name="slide-fade">
-                                <div class="" v-if="cartItems.length == 0">
-                                    <div class="mb-3">Looks like your cart is empty. Start shopping to fill it up!
-                                    </div>
-                                    <div class="buy-bar">
-                                        <Link class="buy-link" :href="route('home')">Continue Shopping
-                                        </Link>
+                                <div class="null-cart" v-if="cartItems.length == 0">
+                                    <div class="text-center">
+                                        <img src="/Images/empty-cart.png" width="200" alt="">
+                                        <div class="mb-4">Looks like your cart is empty. Start shopping to fill it up!
+                                        </div>
+                                       
+                                            <Link class="btn-primary" :href="route('home')">Continue Shopping
+                                            </Link>
+                                       
                                     </div>
 
                                 </div>
                                 <div v-else v-for="item in cartItems" :key="item.id"
-                                    class="cart-item border-0 bg-white px-3 rounded mb-2 shadow-sm">
+                                    class="cart-item border bg-white px-3 rounded-3 mb-3 py-3">
 
                                     <div class="item-image-wrap">
                                         <img :src="item.image" :alt="item.name" class="item-image" />
@@ -34,7 +37,7 @@
                                             <div class="mb-2">
                                                 <p class="item-category item-decription">{{ item.category }}</p>
                                                 <h3 class="item-name">{{ item.name }}</h3>
-                                                <p class="item-category w-50 two-line-clamp">{{ item.description }}</p>
+                                                <!-- <p class="item-category w-50 two-line-clamp">{{ item.description }}</p> -->
                                             </div>
                                             <button @click="removeItem(item.id)" class="btn btn-sm" style="width:28px; height:28px; border:1px solid #fca5a5;
                border-radius:6px; color:#ef4444; background:transparent;
@@ -54,7 +57,7 @@
                                             <div class="item-price-wrap">
                                                 <span class="item-price fs-6">Rs {{ (item.price *
                                                     item.quantity).toFixed(2)
-                                                    }}</span>
+                                                }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -63,7 +66,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-xl-5  p-3">
+                    <div class="col-lg-6 col-xl-5  pb-3 px-3">
                         <div class="summary-card">
                             <h2 class="summary-title">Order Summary</h2>
 

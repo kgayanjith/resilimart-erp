@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3'
 import { router } from '@inertiajs/vue3'
+import { ref, onMounted } from 'vue'
 
 const page = usePage()
 const customer = page.props.customerAuth.user
@@ -17,6 +18,21 @@ const passwordForm = useForm({
   current_password: '',
   password: '',
   password_confirmation: '',
+})
+
+const addressInput = ref(null)
+
+onMounted(() => {
+  if (!window.google) return
+
+  const autocomplete = new google.maps.places.Autocomplete(addressInput.value, {
+    types: ['address'],
+  })
+
+  autocomplete.addListener('place_changed', () => {
+    const place = autocomplete.getPlace()
+    infoForm.address = place.formatted_address || place.name || ''
+  })
 })
 
 function updateInfo() {
@@ -48,9 +64,13 @@ function initials(name) {
 function logout() {
   router.post(route('logout.frontend'), {}, {
     onSuccess: () => {
-      window.history.pushState(null, '', '/login')
+      // const modalEls = document.getElementById('logoutmodelprofile');
+      // const modal = bootstrap.Modal.getInstance(modalEls);
+      // modal?.hide();
+
+      window.history.pushState(null, '', '/')
       window.onpopstate = function () {
-        window.history.pushState(null, '', '/login')
+        window.history.pushState(null, '', '/')
       }
     }
   })
@@ -59,189 +79,196 @@ function logout() {
 
 <template>
   <AppLayout>
-    <main>
+    <main class="profile-page">
 
       <Head title="My Profile" />
 
-      <div class="profile-wrapper">
+      <div class="container py-5">
 
-        <!-- Top bar -->
-
-
-        <div class="container py-5">
-
-          <!-- Header -->
-          <div class="d-flex align-items-center gap-3 mb-5">
-            <div class="avatar">{{ initials(customer.name) }}</div>
-            <div>
-              <div class="d-flex align-items-center gap-3 mb-1">
-                <h1 class="h4 fw-medium mb-1">{{ customer.name }}</h1>
-                <Link class="text-black text-black-50 text-decoration-underline" @click="logout()">Logout</Link>
-              </div>
-              <p class="text-muted-dark small mb-0">
-                Customer since {{ new Date(customer.created_at).toLocaleDateString('en-US', {
-                  month: 'long', year:
-                'numeric' }) }}
-                <span class="status-dot" :class="customer.status ? 'active' : 'inactive'"></span>
-                {{ customer.status ? 'Active' : 'Inactive' }}
-              </p>
+        <!-- Header -->
+        <div class="profile-header mb-4">
+          <div class="avatar rounded-circle">{{ initials(customer.name) }}</div>
+          <div>
+            <div class="d-flex align-items-center gap-3 mb-1">
+              <h1 class="profile-name mb-0">{{ customer.name }}</h1>
+              <Link class="link-quiet" @click="logout()">Logout</Link>
             </div>
+            <p class="profile-meta mb-0">
+              Customer since {{ new Date(customer.created_at).toLocaleDateString('en-US', {
+                month: 'long', year: 'numeric'
+              }) }}
+              <span class="status-dot" :class="customer.status ? 'active' : 'inactive'"></span>
+              {{ customer.status ? 'Active' : 'Inactive' }}
+            </p>
           </div>
+        </div>
 
-          <div class="row g-5">
+        <div class="row g-4">
 
-            <!-- Personal info -->
-            <div class="col-lg-7">
-              <p class="section-title mb-4">Personal information</p>
+          <!-- Personal info -->
+          <div class="col-lg-7">
+            <div class="panel-card border">
+              <p class="section-title">Personal information</p>
 
               <form @submit.prevent="updateInfo">
 
-                <div class="mb-4">
-                  <label class="form-label label-sm">Full name</label>
-                  <input type="text" v-model="infoForm.name" class="form-control form-control-mono"
+                <div class="field-group">
+                  <label class="field-label">Full name</label>
+                  <input type="text" v-model="infoForm.name" class="field-input"
                     :class="{ 'is-invalid': infoForm.errors.name }" />
-                  <div v-if="infoForm.errors.name" class="invalid-feedback d-block">{{ infoForm.errors.name }}</div>
+                  <div v-if="infoForm.errors.name" class="field-error">{{ infoForm.errors.name }}</div>
                 </div>
 
-                <div class="mb-4">
-                  <label class="form-label label-sm">Email address</label>
-                  <input type="email" v-model="infoForm.email" class="form-control form-control-mono"
+                <div class="field-group">
+                  <label class="field-label">Email address</label>
+                  <input type="email" v-model="infoForm.email" class="field-input"
                     :class="{ 'is-invalid': infoForm.errors.email }" />
-                  <div v-if="infoForm.errors.email" class="invalid-feedback d-block">{{ infoForm.errors.email }}</div>
+                  <div v-if="infoForm.errors.email" class="field-error">{{ infoForm.errors.email }}</div>
                 </div>
 
-                <div class="mb-4">
-                  <label class="form-label label-sm">Phone number</label>
-                  <input type="text" v-model="infoForm.phone" class="form-control form-control-mono"
+                <div class="field-group">
+                  <label class="field-label">Phone number</label>
+                  <input type="text" v-model="infoForm.phone" class="field-input"
                     :class="{ 'is-invalid': infoForm.errors.phone }" />
-                  <div v-if="infoForm.errors.phone" class="invalid-feedback d-block">{{ infoForm.errors.phone }}</div>
+                  <div v-if="infoForm.errors.phone" class="field-error">{{ infoForm.errors.phone }}</div>
                 </div>
 
-                <div class="mb-4">
-                  <label class="form-label label-sm">Address</label>
-                  <textarea v-model="infoForm.address" rows="2" class="form-control form-control-mono"
-                    :class="{ 'is-invalid': infoForm.errors.address }"></textarea>
-                  <div v-if="infoForm.errors.address" class="invalid-feedback d-block">{{ infoForm.errors.address }}
+                <div class="field-group">
+                  <label for="address" class="field-label">Address</label>
+                  <input id="address" ref="addressInput" type="text" v-model="infoForm.address" class="field-input"
+                    :class="{ 'is-invalid': infoForm.errors.address }" placeholder="Street, city, country"
+                    autocomplete="off" />
+                  <div v-if="infoForm.errors.address" class="field-error">
+                    {{ infoForm.errors.address }}
                   </div>
                 </div>
 
-                <div class="d-flex align-items-center gap-3">
-                  <button type="submit" class="btn btn-mono rounded-4" :disabled="infoForm.processing">
+                <div class="d-flex align-items-center gap-3 mt-1">
+                  <button type="submit" class="btn-primary btn-auto" :disabled="infoForm.processing">
                     {{ infoForm.processing ? 'Saving…' : 'Save changes' }}
                   </button>
-                  <span v-if="infoForm.recentlySuccessful" class="text-muted-dark small">Saved.</span>
+                  <span v-if="infoForm.recentlySuccessful" class="saved-text">Saved.</span>
                 </div>
               </form>
             </div>
+          </div>
 
-            <!-- Password -->
-            <div class="col-lg-5">
-              <p class="section-title mb-4">Change password</p>
+          <!-- Password -->
+          <div class="col-lg-5">
+            <div class="panel-card border">
+              <p class="section-title">Change password</p>
 
               <form @submit.prevent="updatePassword">
 
-                <div class="mb-4">
-                  <label class="form-label label-sm">Current password</label>
-                  <input type="password" v-model="passwordForm.current_password" class="form-control form-control-mono"
+                <div class="field-group">
+                  <label class="field-label">Current password</label>
+                  <input type="password" v-model="passwordForm.current_password" class="field-input"
                     :class="{ 'is-invalid': passwordForm.errors.current_password }" autocomplete="current-password" />
-                  <div v-if="passwordForm.errors.current_password" class="invalid-feedback d-block">
+                  <div v-if="passwordForm.errors.current_password" class="field-error">
                     {{ passwordForm.errors.current_password }}
                   </div>
                 </div>
 
-                <div class="mb-4">
-                  <label class="form-label label-sm">New password</label>
-                  <input type="password" v-model="passwordForm.password" class="form-control form-control-mono"
+                <div class="field-group">
+                  <label class="field-label">New password</label>
+                  <input type="password" v-model="passwordForm.password" class="field-input"
                     :class="{ 'is-invalid': passwordForm.errors.password }" autocomplete="new-password" />
-                  <div v-if="passwordForm.errors.password" class="invalid-feedback d-block">
+                  <div v-if="passwordForm.errors.password" class="field-error">
                     {{ passwordForm.errors.password }}
                   </div>
                 </div>
 
-                <div class="mb-4">
-                  <label class="form-label label-sm">Confirm new password</label>
-                  <input type="password" v-model="passwordForm.password_confirmation"
-                    class="form-control form-control-mono" autocomplete="new-password" />
+                <div class="field-group">
+                  <label class="field-label">Confirm new password</label>
+                  <input type="password" v-model="passwordForm.password_confirmation" class="field-input"
+                    autocomplete="new-password" />
                 </div>
 
-                <div class="d-flex align-items-center gap-3">
-                  <button type="submit" class="btn btn-mono rounded-4" :disabled="passwordForm.processing">
+                <div class="d-flex align-items-center gap-3 mt-1">
+                  <button type="submit" class="btn-primary btn-auto" :disabled="passwordForm.processing">
                     {{ passwordForm.processing ? 'Updating…' : 'Update password' }}
                   </button>
-                  <span v-if="passwordForm.recentlySuccessful" class="text-muted-dark small">Updated.</span>
+                  <span v-if="passwordForm.recentlySuccessful" class="saved-text">Updated.</span>
                 </div>
               </form>
             </div>
-
           </div>
 
         </div>
+
       </div>
+       <!-- Modal -->
+        <!-- <div class="modal fade" id="logoutmodelprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        Are you sure you want to logout?
+                    </div>
+                    <div class="modal-footer border-0 d-flex align-items-center justify-content-center">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-primary" @click="logout()">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
     </main>
   </AppLayout>
 </template>
 
 <style scoped>
-.profile-wrapper {
-  font-family: 'Inter', sans-serif;
+.profile-page {
+  --ink: #0b0f0e;
+  --teal: #14b8a6;
+  --teal-dark: #0d9488;
+  --teal-soft: rgba(20, 184, 166, 0.14);
+  --slate: #6b7280;
+  --line: rgba(11, 15, 14, 0.1);
+  --red: #d1453b;
+
   min-height: 100vh;
-  background: #ffffff;
-  color: #0a0a0a;
+  width: 100%;
+
+  font-family: 'Inter', sans-serif;
+  color: var(--ink);
 }
 
-.topbar {
-  height: 72px;
-  background: #0a0a0a;
-  color: #ffffff;
-}
 
-.brand-mark {
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 500;
-}
 
-.nav-link-mono {
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-  font-size: 13.5px;
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.nav-link-mono:hover {
-  color: #ffffff;
-}
-
-.nav-link-mono.active {
-  color: #ffffff;
-  border-bottom: 1px solid #ffffff;
-  padding-bottom: 4px;
-}
-
-.logout-btn {
-  cursor: pointer;
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: #0a0a0a;
-  color: #ffffff;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: #000;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  font-weight: 600;
+  font-family: 'Manrope', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
   letter-spacing: 0.02em;
   flex-shrink: 0;
 }
 
-.text-muted-dark {
-  color: rgba(10, 10, 10, 0.55);
+.profile-name {
+  font-family: 'Manrope', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.profile-meta {
+  font-size: 13.5px;
+  color: var(--slate);
 }
 
 .status-dot {
@@ -253,78 +280,131 @@ function logout() {
 }
 
 .status-dot.active {
-  background: #0a0a0a;
+  background: var(--teal-dark);
 }
 
 .status-dot.inactive {
-  background: rgba(10, 10, 10, 0.25);
+  background: rgba(11, 15, 14, 0.25);
+}
+
+.link-quiet {
+  font-size: 13px;
+  color: var(--teal-dark);
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.link-quiet:hover {
+  text-decoration: underline;
+}
+
+.panel-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 20px 45px -25px rgba(11, 15, 14, 0.2);
+  padding: 32px;
+  height: 100%;
 }
 
 .section-title {
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-weight: 600;
-  color: rgba(10, 10, 10, 0.42);
-  border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  font-weight: 700;
+  color: var(--teal-dark);
+  border-bottom: 1px solid var(--line);
   padding-bottom: 14px;
+  margin-bottom: 24px;
 }
 
-.label-sm {
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+/* ---------- Form fields ---------- */
+
+.field-group {
+  margin-bottom: 20px;
+}
+
+.field-label {
+  display: block;
+  font-size: 12.5px;
   font-weight: 600;
-  color: rgba(10, 10, 10, 0.6);
+  color: var(--ink);
   margin-bottom: 8px;
 }
 
-.form-control-mono {
-  border: none;
-  border-bottom: 1px solid rgba(10, 10, 10, 0.25);
-  border-radius: 0;
-  padding: 10px 2px;
-  font-size: 15px;
-  color: #0a0a0a;
-  background: transparent;
+.field-input {
+  width: 100%;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 14.5px;
+  color: var(--ink);
+  background: #fbfbfb;
   resize: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.form-control-mono:focus {
-  border-bottom-color: #0a0a0a;
-  box-shadow: none;
-  background: transparent;
+.field-input:focus {
+  outline: none;
+  border-color: var(--teal);
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--teal-soft);
 }
 
-.form-control-mono.is-invalid {
-  border-bottom-color: #0a0a0a;
+.field-input.is-invalid {
+  border-color: var(--red);
 }
 
-.btn-mono {
-  background: #0a0a0a;
-  color: #ffffff;
-  border: 1px solid #0a0a0a;
-  border-radius: 2px;
-  padding: 11px 24px;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.field-error {
+  font-size: 12px;
+  color: var(--red);
+  margin-top: 6px;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn-primary {
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 13.5px;
   font-weight: 600;
   transition: opacity 0.2s;
 }
 
-.btn-mono:hover:not(:disabled) {
-  opacity: 0.82;
-  color: #ffffff;
+.btn-auto {
+  width: auto;
 }
 
-.btn-mono:disabled {
-  opacity: 0.5;
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.9;
 }
 
-.invalid-feedback {
-  font-size: 12.5px;
-  color: #0a0a0a;
-  margin-top: 4px;
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--teal-soft);
+}
+
+.btn-primary:disabled {
+  opacity: 0.55;
+}
+
+.saved-text {
+  font-size: 13px;
+  color: var(--teal-dark);
+  font-weight: 500;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+  .panel-card {
+    padding: 24px;
+  }
+
+  .profile-header {
+    align-items: flex-start;
+  }
 }
 </style>

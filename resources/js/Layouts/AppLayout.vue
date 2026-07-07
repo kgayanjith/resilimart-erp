@@ -5,13 +5,12 @@
      <slot />
    </div>
     <Footer />
-    <button class="cart-fab" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-label="Open cart">
-      <i class="fa-solid fa-bag-shopping"></i>
-      <span v-if="cartItems.length !== 0"
-        class="position-absolute top-0 start-100 translate-middle badge fs-6 rounded-pill bg-dark text-white">
-        {{ totalItems }}
-      </span>
-    </button>
+  <button class="fab-cart" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-label="Open cart">
+  <i class="fa-solid fa-bag-shopping fab-cart-icon"></i>
+  <span v-if="cartItems.length !== 0" class="fab-cart-badge text-white">
+    {{ totalItems }}
+  </span>
+</button>
     <div class="offcanvas offcanvas-end" data-bs-backdrop="true" data-bs-scroll="true" tabindex="-1"
       id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
       <button type="button" class="btn-close m-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>

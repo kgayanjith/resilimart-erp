@@ -1,16 +1,26 @@
 <template>
  <AppLayout>
-    <h1>product viewBox</h1>
+    <main>
+        <section class="container-fluid px-lg-5 mt-5">
+            <ProductSlider :product="product" />
+        </section>
+    </main>
+    
  </AppLayout>
 </template>
 
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import ProductSlider from './partials/ProductSlider.vue';
 
 export default {
     components: {
-        AppLayout
+        AppLayout,
+        ProductSlider
 
+    },
+    props:{
+        product:Array
     }
 }
 </script>

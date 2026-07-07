@@ -34,7 +34,7 @@ const submit = () => {
             <div class="row justify-content-center pb-5">
                 <div class="col-8">
                     <div class="img-wrapper text-center">
-                        <img src="/Images/resilimart.png" class="" width="200" alt="resilimart-logo">
+                        <img src="/Images/resilimart-black.png" class="" width="200" alt="resilimart-logo">
                     </div>
                 </div>
             </div>
