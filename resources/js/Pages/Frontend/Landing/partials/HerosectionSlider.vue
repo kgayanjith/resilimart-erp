@@ -17,9 +17,8 @@
                         </div>
                         <div class="product-wrapper mt-5">
                             <div class="swiper mySwiper bg-white p-2 rounded-4 secondarySlider shadow-sm">
-                                <div class="swiper-wrapper">
-                                    <Link class="swiper-slide" v-for="product in featuredproducts.slice(0, 2)"
-                                        :key="product.id">
+                                <div v-if="firstTwoProducts" class="swiper-wrapper">
+                                    <Link class="swiper-slide" v-for="product in firstTwoProducts" :key="product.id" @click="productView(product.id)">
                                     <div class="row">
                                         <div class="col-7">
                                             <div class="mt-2">
@@ -39,6 +38,9 @@
                                     </div>
                                     </Link>
                                 </div>
+                                <div v-else class="text-center py-5">
+                                    <p class="text-muted mb-0">No products available right now.</p>
+                                </div>
                                 <div class="swiper-pagination"></div>
                             </div>
                         </div>
@@ -49,8 +51,9 @@
                     <div class="column-wrapper p-4 rounded rounded-4 right-column h-100">
 
                         <div class="swiper mySwiper mainSlider">
-                            <div class="swiper-wrapper">
-                                <Link class="swiper-slide pb-1" v-for="product in featuredproducts.slice(2, 4)" :key="product.id">
+                            
+                            <div v-if="lastTwoProducts" class="swiper-wrapper">
+                                <Link class="swiper-slide pb-1" v-for="product in lastTwoProducts" :key="product.id" @click="productView(product.id)">
                                 <div class="mt-2">
                                     <span class="white-shade py-2 px-4 rounded-pill">Featured</span>
                                 </div>
@@ -65,6 +68,10 @@
                                 </div>
                                 </Link>
                             </div>
+                            <div v-else class="text-center py-5">
+                                <p class="text-muted mb-0">No products available right now.</p>
+                            </div>
+                            
                             <div class="swiper-pagination"></div>
                         </div>
                     </div>
@@ -84,7 +91,8 @@ export default {
         Link
     },
     props: {
-        featuredproducts: Object
+        firstTwoProducts: Object,
+        lastTwoProducts: Object,
     },
     mounted() {
         var swiper1 = new Swiper(".secondarySlider", {
@@ -121,6 +129,11 @@ export default {
                 disableOnInteraction: false,
             },
         });
+    },
+    methods:{
+          productView(id) {
+            this.$inertia.visit(route('product.view', id));
+        }
     }
 }
 </script>

@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="category-slider">
-            <div class="swiper mySwiper categorySlider">
+            <div class="swiper mySwiper categorySlider" v-if="categories && categories.length">
                 <div class="swiper-wrapper">
                     <Link class="swiper-slide rounded-4" v-for="category in categories" :key="category.id">
                     <div class="wrapper">
@@ -25,6 +25,12 @@
                 <!-- <div class="swiper-pagination"></div> -->
                 <!-- <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div> -->
+            </div>
+            <div v-else class="empty-categories text-center">
+                <div class="empty-icon-wrap mx-auto mb-3">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <p class="empty-text mb-0">No categories to show yet.</p>
             </div>
         </div>
     </div>
@@ -62,33 +68,60 @@ export default {
                 delay: 3000,
                 disableOnInteraction: false,
             },
-            loop:true,
+            loop: true,
             breakpoints: {
-        320: {
-            slidesPerView: 2,
-            spaceBetween: 10,
-        },
-        480: {
-            slidesPerView: 3,
-            spaceBetween: 10,
-        },
-        768: {
-            slidesPerView: 4,
-            spaceBetween: 15,
-        },
-        992: {
-            slidesPerView: 5,
-            spaceBetween: 15,
-        },
-        1200: {
-            slidesPerView: 7,
-            spaceBetween: 10,
-        },
-    },
+                320: {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                },
+                480: {
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+                },
+                768: {
+                    slidesPerView: 4,
+                    spaceBetween: 15,
+                },
+                992: {
+                    slidesPerView: 5,
+                    spaceBetween: 15,
+                },
+                1200: {
+                    slidesPerView: 7,
+                    spaceBetween: 10,
+                },
+            },
         });
     }
 }
 </script>
+
+<style scoped>
+.empty-categories {
+    padding: 2.5rem 1rem;
+}
+
+.empty-icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #e6f5f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-icon-wrap i {
+    font-size: 1.4rem;
+    color: #0d9488;
+}
+
+.empty-text {
+    font-size: 0.9rem;
+    color: #6b7c7a;
+}
+
+</style>
 
 <style>
 .category-slider .swiper-pagination-bullet {

@@ -211,7 +211,7 @@ const submit = () => {
 /* ---------- Brand panel ---------- */
 
 .brand-panel {
-  background: linear-gradient(155deg, #123832 0%, #0c1f1c 55%, #090909 100%);
+background: linear-gradient(160deg, #0d3b38 0%, #0a2e2c 45%, #051312 100%);
   color: #fff;
   padding: 40px 40px 32px;
   display: flex;

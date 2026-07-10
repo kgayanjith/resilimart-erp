@@ -1,12 +1,17 @@
 <template>
     <div class="container-fluid px-lg-5 mt-5">
-        <div>
-            <h3 class="">Our Latest Products</h3>
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <h3 class="">Our Latest Products</h3>
+            </div>
+            <div>
+                <Link class="text-dark" :href="route('allproducts')">See All</Link>
+            </div>
         </div>
-        <div class="row mt-5">
+        <div class="row mt-5" v-if="latestproducts && latestproducts.length">
             <div class="col-md-3 mb-3" v-for="product in latestproducts" :key="product.id">
                 <div class="product-wrapper">
-                    <Link class="card rounded-4 p-1" href="/product">
+                    <Link class="card rounded-4 p-1" @click="productView(product.id)">
                     <img :src="product.media[0]?.original_url" class="card-img-top w-100 rounded-3" alt="...">
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-2">
@@ -43,6 +48,20 @@
                     </Link>
                 </div>
             </div>
+            <div class="col-12 text-center">
+                <Link :href="route('allproducts')" class="empty-cta mt-3">
+                See all products<i class="fa-solid fa-arrow-right ms-2"></i>
+                </Link>
+            </div>
+        </div>
+        <div v-else class="empty-state text-center mt-5">
+            <div class="empty-icon-wrap mx-auto mb-4">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <h4 class="empty-title">No new arrivals yet</h4>
+            <p class="empty-sub mx-auto">
+                We haven't added anything new recently. Check back soon for the latest additions.
+            </p>
         </div>
     </div>
 </template>
@@ -55,11 +74,11 @@ export default {
     components: {
         Link
     },
-  
+
     props: {
         latestproducts: Object,
     },
-     computed: {
+    computed: {
         ...mapState({
             cartItems: state => state.cartItems
         })
@@ -69,6 +88,9 @@ export default {
 
         isInCart(productId) {
             return this.cartItems.some(item => item.id === productId);
+        },
+          productView(id) {
+            this.$inertia.visit(route('product.view', id));
         }
     }
 }

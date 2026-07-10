@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid px-lg-5 mt-5">
+    <div class="container-fluid px-lg-5 mt-5" v-if="banners && banners.length">
         <div>
             <h3 class="">Promotions!</h3>
         </div>

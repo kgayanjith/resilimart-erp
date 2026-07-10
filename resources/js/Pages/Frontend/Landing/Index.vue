@@ -1,14 +1,14 @@
 <template>
   <AppLayout>
     <div class="mt-4">
-      <HerosectionSlider :featuredproducts="featuredproducts" />
+      <HerosectionSlider :featuredproducts="featuredproducts" :firstTwoProducts="firstTwoProducts" :lastTwoProducts="lastTwoProducts" />
       <Categories :categories="categories" />
       <Latestproducts :latestproducts="latestproducts" />
       <Mostordered :mostorderedproducts="mostorderedproducts" />
       <Promotionbanner :banners="banners" />
       <Categorizedproducts :productsections="productsections" />
     </div>
-   
+
   </AppLayout>
 
 </template>
@@ -39,9 +39,11 @@ export default {
     latestproducts: Object,
     featuredproducts: Object,
     mostorderedproducts: Object,
-    productsections: Object
+    productsections: Object,
+    firstTwoProducts: Object,
+    lastTwoProducts: Object,
   },
-  
+
 }
 </script>
 

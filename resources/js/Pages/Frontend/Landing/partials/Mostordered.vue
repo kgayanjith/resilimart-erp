@@ -3,7 +3,7 @@
         <div>
             <h3 class="">Most Ordered Products</h3>
         </div>
-        <div class="row mt-5">
+        <div class="row mt-5" >
             <div class="col-md-3 mb-3" v-for="product in mostorderedproducts" :key="product.id">
                 <div class="product-wrapper">
                     <Link class="card rounded-4 p-1" @click="productView(product.id)">
@@ -44,6 +44,7 @@
                 </div>
             </div>
         </div>
+       
     </div>
 </template>
 

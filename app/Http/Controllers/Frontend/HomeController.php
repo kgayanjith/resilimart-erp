@@ -16,16 +16,18 @@ class HomeController extends Controller
 
       $banners = Banner::where('status', 1)->with('media')->get();
       $categories = ProductCategory::where('status', 1)->with('media')->get();
-      $latestproducts = Product::where('status', 1)->with('media', 'category')->latest()->take(4)->get();
+      $latestproducts = Product::where('status', 1)->with('media', 'category')->latest()->take(8)->get();
       $featuredproducts = Product::where('status', 1)->with('media', 'category')->latest()->take(4)->get();
       $mostorderedproducts = Product::where('status', 1)->with('media', 'category')->take(4)->inRandomOrder()->get();
       $productsections = ProductCategory::where('status', 1)->with([
          'media',
          'products' => function ($query) {
-            return $query->with('media','category')->limit(4);
+            return $query->with('media', 'category')->limit(4);
          }
       ])->take(4)->get();
-      // dd($products);
+      $firstTwoProducts = $featuredproducts->slice(0, 2)->values();
+      $lastTwoProducts = $featuredproducts->slice(2, 2)->values();
+      // dd($firstTwoProducts);
 
       return Inertia::render('Frontend/Landing/Index', [
          'banners' => $banners,
@@ -33,7 +35,9 @@ class HomeController extends Controller
          'latestproducts' => $latestproducts,
          'featuredproducts' => $featuredproducts,
          'mostorderedproducts' => $mostorderedproducts,
-         'productsections' => $productsections
+         'productsections' => $productsections,
+         'firstTwoProducts' => $firstTwoProducts,
+         'lastTwoProducts' => $lastTwoProducts,
       ]);
    }
 }
