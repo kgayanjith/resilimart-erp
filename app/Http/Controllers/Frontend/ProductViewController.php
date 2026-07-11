@@ -12,7 +12,8 @@ class ProductViewController extends Controller
     public function index($id)
     {
         $product = Product::with('category', 'media')->findOrFail($id);
+        $recommendedProducts = Product::where('status', 1)->with('media', 'category')->take(4)->inRandomOrder()->get();
         // dd($product);
-        return Inertia::render('Frontend/ProductView/Index', ['product' => $product]);
+        return Inertia::render('Frontend/ProductView/Index', ['product' => $product, 'recommendedProducts' => $recommendedProducts]);
     }
 }

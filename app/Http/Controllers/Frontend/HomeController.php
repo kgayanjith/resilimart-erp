@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -27,7 +28,9 @@ class HomeController extends Controller
       ])->take(4)->get();
       $firstTwoProducts = $featuredproducts->slice(0, 2)->values();
       $lastTwoProducts = $featuredproducts->slice(2, 2)->values();
-      // dd($firstTwoProducts);
+
+     
+      // dd($orders);
 
       return Inertia::render('Frontend/Landing/Index', [
          'banners' => $banners,

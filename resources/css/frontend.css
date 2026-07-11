@@ -1473,6 +1473,7 @@ span {
     transform: translateY(-1px);
     box-shadow: 0 10px 24px -6px rgba(13, 148, 136, 0.45);
 }
+
 @media (max-width: 575.98px) {
     .products-toolbar {
         flex-direction: column;

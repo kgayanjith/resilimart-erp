@@ -13,7 +13,7 @@ class CartController extends Controller
     }
 
     public function checkoutPage(){
-        return Inertia::render('');
+        return Inertia::render('Frontend/Cart/CheckoutPage');
     }
 }
 

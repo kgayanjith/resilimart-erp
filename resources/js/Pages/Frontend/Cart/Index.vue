@@ -17,10 +17,10 @@
                                         <img src="/Images/empty-cart.png" width="200" alt="">
                                         <div class="mb-4">Looks like your cart is empty. Start shopping to fill it up!
                                         </div>
-                                       
-                                            <Link class="btn-primary" :href="route('home')">Continue Shopping
-                                            </Link>
-                                       
+
+                                        <Link class="btn-primary" :href="route('home')">Continue Shopping
+                                        </Link>
+
                                     </div>
 
                                 </div>
@@ -57,7 +57,7 @@
                                             <div class="item-price-wrap">
                                                 <span class="item-price fs-6">Rs {{ (item.price *
                                                     item.quantity).toFixed(2)
-                                                }}</span>
+                                                    }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -101,16 +101,12 @@
                                 </div>
                             </div>
 
-                            <button class="btn-checkout" @click="goCheckout">
+                            <button class="btn-checkout" @click="goCheckout" :disabled="!cartItems.length">
                                 Proceed to Checkout
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5">
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                    <polyline points="12 5 19 12 12 19" />
-                                </svg>
+                                <i class="fa-solid fa-arrow-right ms-2"></i>
                             </button>
 
-                            <p class="secure-note">
+                            <p class="secure-note mt-3">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2">
                                     <rect x="3" y="11" width="18" height="11" rx="2" />
@@ -155,6 +151,15 @@ export default {
             return this.subTotal + this.vatAmount;
         }
     },
+    // modules: {
+    //     cart: {
+    //         namespaced: true,
+    //         state: () => ({ cartItems: [] })
+    //     }
+    // },
+    mounted(){
+        //    console.log('cartItems:', this.cartItems);
+    },
     methods: {
         ...mapActions(['removeItem']),
 
@@ -173,4 +178,11 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.btn-checkout:disabled {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    pointer-events: none;
+    color: white !important;
+}
+</style>

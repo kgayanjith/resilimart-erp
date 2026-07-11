@@ -37,6 +37,10 @@ const store = createStore({
         CLOSE_CART_DRAWER(state) {
             state.cartDrawerOpen = false;
         },
+        CLEAR_CART(state) {
+            state.cartItems = [];
+            saveCart([]);
+        },
     },
     actions: {
         addToCart({ state, commit }, product) {
@@ -49,8 +53,8 @@ const store = createStore({
                 cart.push({
                     id: product.id,
                     name: product.name,
-                    category:product.category.name,
-                    description:product.description,
+                    category: product.category.name,
+                    description: product.description,
                     price: product.price,
                     image: product.media[0]?.original_url,
                     quantity: 1,
@@ -91,6 +95,10 @@ const store = createStore({
             setTimeout(() => {
                 commit("HIDE_TOAST");
             }, 2000);
+        },
+
+        clearCart({ commit }) {
+            commit("SET_CART", []);
         },
     },
 });

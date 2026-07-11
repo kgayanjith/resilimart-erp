@@ -60,48 +60,7 @@
                             </div>
                         </div>
                     </div>
-                     <div>
-                        <div class="accordion accordion-flush" id="inventoryAccordion">
-                            <div class="accordion-item">
-                                <div class="side-bar-header">
-                                    <p class="text-dark text-uppercase">Shipping & Tracking</p>
-                                </div>
-                                <div id="inventory" class="accordion-collapse collapse show"
-                                    data-bs-parent="#inventoryAccordion">
-                                    <div class="accordion-body pt-0 px-1">
-                                        <div class="nav-item text-black">
-                                            <Link href="" class="nav-link">
-                                            <i class="fa-solid fa-boxes-stacked"></i>
-                                            Ports
-                                            </Link>
-                                        </div>
-                                        <div class="nav-item text-black">
-                                            <Link href="" class="nav-link">
-                                            <i class="fa-solid fa-route"></i>
-                                            Shipping Routes
-                                            </Link>
-                                        </div>
-                                        <div class="nav-item text-black">
-                                            <Link href="" class="nav-link">
-                                            <i class="fa-solid fa-ship"></i>
-                                            Shipment Detials
-                                            </Link>
-                                        </div>
-                                        <div class="nav-item text-black">
-                                            <Link :href="route('shipment.index')"  class="nav-link" v-bind:class="{
-                                                active: addActiveClass(['shipment.index', 'shipment.tracking']),
-                                            }">
-                                           <i class="fa-solid fa-location-crosshairs"></i>
-                                            Shipments & Tracking
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                    <div>
+                      <div>
                         <div class="accordion accordion-flush" id="salesAccordion">
                             <div class="accordion-item">
 
@@ -147,7 +106,9 @@
                                             </Link>
                                         </div>
                                         <div class="nav-item text-black">
-                                            <Link href="" class="nav-link">
+                                            <Link :href="route('sales.index')" class="nav-link" v-bind:class="{
+                                                active: addActiveClass(['sales.index','sale.view']),
+                                            }">
                                             <i class="fa-solid fa-store"></i>
                                             Sales
                                             </Link>
@@ -169,6 +130,48 @@
                             </div>
                         </div>
                     </div>
+                     <div>
+                        <div class="accordion accordion-flush" id="inventoryAccordion">
+                            <div class="accordion-item">
+                                <div class="side-bar-header">
+                                    <p class="text-dark text-uppercase">Shipping & Tracking</p>
+                                </div>
+                                <div id="inventory" class="accordion-collapse collapse show"
+                                    data-bs-parent="#inventoryAccordion">
+                                    <div class="accordion-body pt-0 px-1">
+                                        <div class="nav-item text-black">
+                                            <Link href="" class="nav-link">
+                                            <i class="fa-solid fa-boxes-stacked"></i>
+                                            Ports
+                                            </Link>
+                                        </div>
+                                        <div class="nav-item text-black">
+                                            <Link href="" class="nav-link">
+                                            <i class="fa-solid fa-route"></i>
+                                            Shipping Routes
+                                            </Link>
+                                        </div>
+                                        <div class="nav-item text-black">
+                                            <Link href="" class="nav-link">
+                                            <i class="fa-solid fa-ship"></i>
+                                            Shipment Detials
+                                            </Link>
+                                        </div>
+                                        <div class="nav-item text-black">
+                                            <Link :href="route('shipment.index')"  class="nav-link" v-bind:class="{
+                                                active: addActiveClass(['shipment.index', 'shipment.tracking']),
+                                            }">
+                                           <i class="fa-solid fa-location-crosshairs"></i>
+                                            Shipments & Tracking
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                  
                     
                     <div>
                         <div class="accordion accordion-flush" id="purchasingAccordion">

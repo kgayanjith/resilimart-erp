@@ -68,7 +68,7 @@
             Subtotal: Rs {{ subTotal.toFixed(2) }}
           </span>
         </div>
-        <button class="btn btn-dark w-100">Checkout</button>
+        <button class="btn btn-dark w-100" @click="goCheckout" :disabled="!cartItems.length">Checkout</button>
       </div>
     </div>
     <transition name="toast-slide">
@@ -122,7 +122,10 @@ export default {
     },
     decrease(id) {
       this.$store.dispatch('decreaseItem', id)
-    }
+    },
+     goCheckout() {
+            this.$inertia.visit(this.route('checkout'));
+        }
   }
 }
 </script>

@@ -3,6 +3,7 @@
     <main>
         <section class="container-fluid px-lg-5 mt-5">
             <ProductSlider :product="product" />
+            <Recomendations :recommendedProducts="recommendedProducts" />
         </section>
     </main>
     
@@ -12,15 +13,18 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import ProductSlider from './partials/ProductSlider.vue';
+import Recomendations from './partials/Recomendations.vue';
 
 export default {
     components: {
         AppLayout,
-        ProductSlider
+        ProductSlider,
+        Recomendations
 
     },
     props:{
-        product:Array
+        product:Array,
+        recommendedProducts:Array
     }
 }
 </script>

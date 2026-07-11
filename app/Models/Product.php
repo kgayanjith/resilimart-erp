@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -24,10 +25,10 @@ class Product extends Model implements HasMedia
     public function category(): BelongsTo
     {
         return $this->belongsTo(ProductCategory::class, 'product_category_id')
-                ->withDefault([
-                    'name' => 'No Category',
-                    'id'   => null,
-                ]);
+            ->withDefault([
+                'name' => 'No Category',
+                'id'   => null,
+            ]);
     }
 
     public function registerMediaCollections(): void
@@ -35,4 +36,11 @@ class Product extends Model implements HasMedia
         $this->addMediaCollection('feature_image')->singleFile();
         $this->addMediaCollection('product_images');
     }
+
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    
 }

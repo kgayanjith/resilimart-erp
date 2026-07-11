@@ -31,7 +31,8 @@
                                 :href="route('cart')">Cart</Link>
                         </li>
                         <li class="nav-item mx-1">
-                            <Link class="nav-link px-3" :href="route('aboutus')" :class="{ active: route().current('aboutus') }">About Us</Link>
+                            <Link class="nav-link px-3" :href="route('aboutus')"
+                                :class="{ active: route().current('aboutus') }">About Us</Link>
                         </li>
                     </ul>
                 </div>
@@ -53,14 +54,16 @@
                                 aria-expanded="false" style="cursor: pointer;">
                                 <div class="avatar-nav">{{ initials(name) }}</div>
                             </div>
-                            <ul class="dropdown-menu dropdown-menu-end mt-3 border-0 p-2 shadow rounded-4 dropdown-mono">
+                            <ul
+                                class="dropdown-menu dropdown-menu-end mt-3 border-0 p-2 shadow rounded-4 dropdown-mono">
                                 <li class="dropdown-header">
                                     <div class="d-flex align-items-center">
                                         <div class="avatar-nav me-2">{{ initials(name) }}</div>
                                         <div>
                                             <div class="fw-bold dropdown-name">{{ $page.props.customerAuth.user.name }}
                                             </div>
-                                            <small class="dropdown-email">{{ $page.props.customerAuth.user.email }}</small>
+                                            <small class="dropdown-email">{{ $page.props.customerAuth.user.email
+                                            }}</small>
                                         </div>
                                     </div>
                                 </li>
@@ -68,16 +71,19 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <Link class="dropdown-item dropdown-item-mono" :href="route('profile.edit')">Profile</Link>
+                                    <Link class="dropdown-item dropdown-item-mono" :href="route('profile.edit')">Profile
+                                    </Link>
                                 </li>
                                 <li>
-                                    <Link class="dropdown-item dropdown-item-mono">Orders</Link>
+                                    <Link class="dropdown-item dropdown-item-mono" :href="route('orders.show')">My
+                                    Orders</Link>
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <button class="dropdown-item dropdown-item-mono text-danger" @click="logout()">
+                                    <button class="dropdown-item dropdown-item-mono text-danger"
+                                        @click="confirmLogout()">
                                         <i class="bi bi-box-arrow-right me-2"></i>Logout
                                     </button>
                                 </li>
@@ -91,6 +97,36 @@
 
             </div>
         </nav>
+        <button type="button" class="d-none" ref="logoutModalTrigger" data-bs-toggle="modal"
+            data-bs-target="#logoutConfirmModal"></button>
+
+        <div class="modal fade" id="logoutConfirmModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content logout-modal-content">
+                    <button type="button" class="d-none" ref="logoutModalClose" data-bs-dismiss="modal"></button>
+
+                    <div class="modal-body text-center py-5 px-4">
+                        <div class="logout-icon-wrap mx-auto mb-4">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </div>
+
+                        <h4 class="logout-title mb-2">Log out?</h4>
+                        <p class="logout-sub mb-4">
+                            You'll need to sign in again to access your account.
+                        </p>
+
+                        <div class="d-flex gap-2 justify-content-center flex-wrap">
+                            <button type="button" class="btn-stay" data-bs-dismiss="modal">
+                                Stay Logged In
+                            </button>
+                            <button type="button" class="btn-confirm-logout" @click="logout()">
+                                Yes, Log Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </template>
 
@@ -126,7 +162,11 @@ export default {
         handleScroll() {
             this.isScrolled = window.scrollY > 20
         },
+        confirmLogout() {
+            this.$refs.logoutModalTrigger.click();
+        },
         logout() {
+            this.$refs.logoutModalClose.click();
             router.post(route('logout.frontend'), {}, {
                 onSuccess: () => {
                     window.history.pushState(null, '', '/')
@@ -318,5 +358,75 @@ export default {
 
 .toggler-mono:focus {
     box-shadow: 0 0 0 3px var(--teal-soft);
+}
+</style>
+<style scoped>
+.logout-modal-content {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 24px 60px -12px rgba(5, 19, 18, 0.35);
+}
+
+.logout-icon-wrap {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: #e6f5f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-icon-wrap i {
+    font-size: 1.9rem;
+    color: #0d9488;
+}
+
+.logout-title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    color: #14332f;
+}
+
+.logout-sub {
+    font-size: 0.9rem;
+    color: #6b7c7a;
+    line-height: 1.6;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-stay {
+    padding: 0.65rem 1.4rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #274b47;
+    background: #f6f9f8;
+    border: 1.5px solid #e3ebea;
+    border-radius: 10px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.btn-stay:hover {
+    border-color: #b9d9d5;
+    background: #eef5f4;
+}
+
+.btn-confirm-logout {
+    padding: 0.65rem 1.4rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: black;
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: 0 8px 20px -6px rgba(13, 148, 136, 0.4);
+}
+
+.btn-confirm-logout:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px -6px rgba(13, 148, 136, 0.5);
 }
 </style>

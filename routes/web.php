@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SalesController;
 use App\Http\Controllers\ShipmentController;
 use Illuminate\Support\Facades\Route;
 
@@ -88,6 +89,14 @@ Route::prefix('backend')->group(function () {
             // Route::get('/edit/{id}', [BannerController::class, 'edit'])->name('banner.edit');
             // Route::post('/update/{banner}', [BannerController::class, 'update'])->name('banner.update');
             // Route::delete('/delete/{banner}', [BannerController::class, 'destroy'])->name('banner.delete');
+        });
+
+          // Sales Routes
+        Route::prefix('sales')->group(function () {
+            Route::get('/', [SalesController::class, 'index'])->name('sales.index');
+            Route::get('/view/{id}', [SalesController::class, 'view'])->name('sale.view');
+            Route::patch('/view/status/{id}', [SalesController::class, 'update'])->name('sale.status.update');
+           
         });
     });
 });
