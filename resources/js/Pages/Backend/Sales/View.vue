@@ -2,7 +2,6 @@
     <AppLayout>
         <div class="order-view-page">
             <div class="container-fluid px-lg-4 py-4">
-
                 <!-- Back link + page header -->
                 <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
                     <div>
@@ -15,8 +14,9 @@
                     </div>
 
                     <div class="d-flex align-items-center gap-2 flex-wrap">
-                        <span class="status-badge status-processing">{{ sale.status }}</span>
-                        <span class="payment-badge payment-pending">Payment {{ sale.payment_status }}</span>
+                        <span class="bg-light py-1 px-3 rounded-pill text-uppercase fw-semibold border">{{ sale.status
+                            }}</span>
+                        <!-- <span class="status-badge payment-pending text-uppercase">Payment {{ sale.payment_status }}</span> -->
                     </div>
                 </div>
 
@@ -39,10 +39,6 @@
                             <a :href="`tel:${sale.customer.phone}`" class="btn btn-primary rounded-3 w-100 mt-3">Call
                                 now</a>
                         </div>
-
-
-
-
                     </div>
                     <div class="col-lg-4">
                         <!-- Shipping address -->
@@ -59,14 +55,16 @@
                             <h5 class="card-heading mb-3">Payment Details</h5>
                             <div class="info-row">
                                 <span>Method</span>
-                                <strong>{{ sale.payment_method }}</strong>
+                                <strong> {{ sale.payment_method === 'cod' ? 'Cash on Delivery' : sale.payment_method ===
+                                    'bank_transfer' ? 'Bank Transfer' : sale.payment_method === 'card' ? 'Credit / Debit Card' : sale.payment_method }}</strong>
                             </div>
                             <div class="info-row">
                                 <span>Status</span>
-                                <span class="payment-badge payment-pending">{{ sale.payment_status }}</span>
+                                <span class="payment-badge payment-pending rounded-pill text-uppercase">{{
+                                    sale.payment_status }}</span>
                             </div>
-                            <button class="btn-mark-paid w-100 mt-3">
-                                <i class="fa-solid fa-check me-1"></i>Mark as Paid
+                            <button class="btn-mark-paid w-100 mt-3" type="button" @click="updatePaymentPaid()">
+                                <i class="fa-solid fa-check me-1"></i>{{ sale.payment_status === 'paid' ? 'Mark as Pending' : 'Mark as Paid'}}
                             </button>
                         </div>
                     </div>
@@ -140,8 +138,9 @@
                                 <option value="rejected">Rejected</option>
                                 <option value="cancelled">Cancelled</option>
                             </select>
-                            <button class="btn-update-status w-100" @click="updateStatus" :disabled="updating || this.selectedStatus == sale.status">
-                                {{ updating ? 'Updating...' : 'Update Order' }}
+                            <button class="btn-update-status w-100" @click="updateStatus"
+                                :disabled="updating || this.selectedStatus == sale.status">
+                                {{ updating ? 'Updating...' : 'Update Status' }}
                             </button>
                         </div>
 
@@ -169,7 +168,7 @@ export default {
     data() {
         return {
             selectedStatus: this.sale.status,
-            updating: false
+            updating: false,
         }
     },
     methods: {
@@ -201,7 +200,7 @@ export default {
                         icon: "success",
                         title: "Status Saved",
                         text: "Status has been chnaged successfully.",
-                        iconColor: "#2563eb",
+                        iconColor: "#000",
                         customClass: {
                             timerProgressBar: "custom-timer-bar",
                         },
@@ -224,14 +223,123 @@ export default {
                         icon: "error",
                         title: "Error!",
                         text: "Something went wrong!",
-                        iconColor: "#2563eb",
+                        iconColor: "#000",
                         customClass: {
                             timerProgressBar: "custom-timer-bar",
                         },
                     });
                 }
             });
-        }
+        },
+        updatePaymentPaid() {
+
+            if (this.sale.payment_status === 'pending') {
+                this.$inertia.patch(route('sale.paymentstatus.update', this.sale.id), {
+                    payment_status: 'paid'
+                }, {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        this.updating = false;
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.onmouseenter = Swal.stopTimer;
+                                toast.onmouseleave = Swal.resumeTimer;
+                            },
+                        });
+                        Toast.fire({
+                            icon: "success",
+                            title: "Payment Status Saved",
+                            text: "Payment Status has been chnaged successfully.",
+                            iconColor: "#000",
+                            customClass: {
+                                timerProgressBar: "custom-timer-bar",
+                            },
+                        });
+                    },
+                    onError: () => {
+                        this.updating = false;
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.onmouseenter = Swal.stopTimer;
+                                toast.onmouseleave = Swal.resumeTimer;
+                            },
+                        });
+                        Toast.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: "Something went wrong!",
+                            iconColor: "#000",
+                            customClass: {
+                                timerProgressBar: "custom-timer-bar",
+                            },
+                        });
+                    }
+                });
+            } else {
+                this.$inertia.patch(route('sale.paymentstatus.update', this.sale.id), {
+                    payment_status: 'pending'
+                }, {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        this.updating = false;
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.onmouseenter = Swal.stopTimer;
+                                toast.onmouseleave = Swal.resumeTimer;
+                            },
+                        });
+                        Toast.fire({
+                            icon: "success",
+                            title: "Payment Status Saved",
+                            text: "Payment Status has been chnaged successfully.",
+                            iconColor: "#000",
+                            customClass: {
+                                timerProgressBar: "custom-timer-bar",
+                            },
+                        });
+                    },
+                    onError: () => {
+                        this.updating = false;
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.onmouseenter = Swal.stopTimer;
+                                toast.onmouseleave = Swal.resumeTimer;
+                            },
+                        });
+                        Toast.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: "Something went wrong!",
+                            iconColor: "#000",
+                            customClass: {
+                                timerProgressBar: "custom-timer-bar",
+                            },
+                        });
+                    }
+                });
+            }
+        },
+
     }
 }
 </script>
@@ -498,7 +606,7 @@ export default {
     box-shadow: 0 8px 20px -6px rgba(13, 148, 136, 0.45);
 }
 
-.btn-update-status:disabled{
+.btn-update-status:disabled {
     cursor: not-allowed;
     background: rgb(80, 80, 80);
 }

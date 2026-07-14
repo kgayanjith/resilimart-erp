@@ -110,7 +110,7 @@ class OrderController extends Controller
      */
     public function show()
     {
-         $customer = Auth::guard('customer')->user();
+        $customer = Auth::guard('customer')->user();
 
         $orders = Order::with(['customer', 'items.product', 'items.product.media'])
             ->where('customer_id', $customer->id)

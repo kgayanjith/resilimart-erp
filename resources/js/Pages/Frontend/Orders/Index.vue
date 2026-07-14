@@ -46,7 +46,7 @@
 
                             <div class="col-6 col-md-3">
                                 <div class="meta-label">Status</div>
-                                <span class="status-pill" :class="'status-' + order.status">
+                                <span class="status-pill text-uppercase" :class="'status-' + order.status">
                                     <span class="status-dot"></span>{{ order.status }}
                                 </span>
                             </div>
@@ -76,7 +76,7 @@
 
                             <button class="btn-ticket" @click="Tracking(order.id)"
                                 v-if="order.status !== 'cancelled'">Track order</button>
-                            <button class="btn-reorder bg-secondary" v-if="order.status === 'placed'"
+                            <button class="btn-reorder bg-secondary border-secondary" v-if="order.status === 'placed'"
                                 @click="confirmCancel(order.id)">Cancel</button>
                             <button class="btn-reorder"
                                 v-if="order.status === 'delivered' || order.status === 'cancelled'">Reorder</button>

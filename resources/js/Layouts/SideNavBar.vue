@@ -113,18 +113,18 @@
                                             Sales
                                             </Link>
                                         </div>
-                                        <div class="nav-item text-black">
+                                        <!-- <div class="nav-item text-black">
                                             <Link href="" class="nav-link">
                                             <i class="fa-solid fa-truck"></i>
                                             Deliveries
                                             </Link>
-                                        </div>
-                                        <div class="nav-item text-black">
+                                        </div> -->
+                                        <!-- <div class="nav-item text-black">
                                             <Link href="" class="nav-link">
                                             <i class="fa-solid fa-retweet"></i>
                                             Returns
                                             </Link>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -273,16 +273,14 @@
                             </div>
                         </div>
                         <div class="dropdown">
-                            <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                            <div class="dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false"
                                 style="cursor: pointer;">
-                                <img :src="$page.props.auth.user.profile_photo_url" alt="Profile" class="rounded-circle"
-                                    style="width: 40px; height: 40px; object-fit: cover;">
+                               <div class="avatar-nav me-2">{{ initials(name) }}</div>
                             </div>
                             <ul class="dropdown-menu dropdown-menu-end mt-3 border-0 p-2 shadow rounded-4">
                                 <li class="dropdown-header">
                                     <div class="d-flex align-items-center">
-                                        <img :src="$page.props.auth.user.profile_photo_url" alt="Profile"
-                                            class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                                        <div class="avatar-nav me-2">{{ initials(name) }}</div>
                                         <div>
                                             <div class="fw-bold text-black">{{ $page.props.auth.user.name }}</div>
                                             <small class="text-muted">{{ $page.props.auth.user.email }}</small>
@@ -324,6 +322,7 @@ export default {
             isSidebarOpen: false,
             currentRoute: "",
             isFullScreen: false,
+            name:this.$page.props.auth.user.name,
         };
     },
     components: {
@@ -364,6 +363,14 @@ export default {
                 console.error("Fullscreen error:", e);
             }
         },
+        initials(name) {
+            return name
+                .split(' ')
+                .map((n) => n[0])
+                .join('')
+                .slice(0, 2)
+                .toUpperCase()
+        }
     },
     mounted() {
         document.addEventListener("fullscreenchange", this.sync);
@@ -376,4 +383,20 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.avatar-nav {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #000;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+}
+</style>

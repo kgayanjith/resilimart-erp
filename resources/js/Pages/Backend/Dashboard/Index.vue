@@ -59,7 +59,7 @@
               </div>
               <div class="ms-3">
                 <p class="text-muted mb-1 small">Total Income</p>
-                <h4 class="mb-0 fw-bold">Rs {{ totalIncome.toFixed(2) }}</h4>
+                <h5 class="mb-0 fw-bold">Rs {{ revenue }}</h5>
               </div>
             </div>
           </div>
@@ -135,7 +135,7 @@
             <div class="d-flex justify-content-between align-items-center mb-2">
               <div>
                 <p class="text-muted mb-0 small">Orders Overview</p>
-                <h5 class="fw-semibold mb-0">This Week</h5>
+                <h5 class="fw-semibold mb-0">Last 7 Days</h5>
               </div>
               <div class="stat-icon bg-primary bg-opacity-10 text-primary">
                 <i class="bi bi-cart3"></i>
@@ -153,7 +153,7 @@
             <div class="d-flex justify-content-between align-items-center mb-2">
               <div>
                 <p class="text-muted mb-0 small">Income Overview</p>
-                <h5 class="fw-bold mb-0">This Week</h5>
+                <h5 class="fw-bold mb-0">Last 7 Days</h5>
               </div>
               <div class="stat-icon bg-success bg-opacity-10 text-success">
                 <i class="bi bi-currency-dollar"></i>
@@ -209,19 +209,22 @@ export default {
     activeProducts: Number,
     totalCategories: Number,
     totalOrders: Number,
-    totalIncome: Number,
     totalCustomers: Number,
     pendingOrders: Number,
     cancelledOrders: Number,
+    revenue:String,
+    labels:Array,
+    orders:Array,
+    income:Array
   },
   data() {
     return {
       ordersChart: null,
       incomeChart: null,
       chartData: {
-        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        orders: [12, 19, 7, 15, 22, 30, 24],
-        income: [320, 480, 210, 390, 610, 780, 640],
+        labels: this.labels,
+        orders: this.orders,
+        income: this.income,
       },
     }
   },

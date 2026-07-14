@@ -7,16 +7,22 @@
                         <div class="eyebrow">Tracking</div>
                         <h2 class="route-title">Order <span class="accent">{{ order.order_number }}</span></h2>
                     </div>
-                    <span class="status-chip">Order {{ order.status }}</span>
+                    <span class="status-chip text-uppercase">Order {{ order.status }}</span>
                 </div>
 
-                <div class="route-track">
+                <div class="route-track" v-if="order.status !== 'rejected'">
                     <div class="road"></div>
                     <div class="road-fill" :style="{ width: statusWidths[order.status] + '%' }"></div>
 
                     <div class="marker" :style="{ left: statusWidths[order.status] + '%' }">
                         <div class="marker-pulse"></div>
-                        <i class="bi bi-truck"></i>
+                        <i class="bi" :class="{
+                            'bi-receipt': order.status === 'placed',
+                            'bi-check-lg': order.status === 'confirmed',
+                            'bi-arrow-repeat': order.status === 'processing',
+                            'bi-truck': order.status === 'shipped',
+                            'bi-box-seam': order.status === 'delivered',
+                        }"></i>
                     </div>
 
                     <div class="stop" :class="{ 'stop-current': order.status === 'placed' }" style="left: 0%;">
@@ -48,6 +54,18 @@
                         <div class="stop-label">Delivered</div>
 
                     </div>
+                </div>
+                <div class="rejected-panel text-center" v-else>
+                    <div class="rejected-icon-wrap mx-auto mb-3">
+                        <i class="bi bi-emoji-frown"></i>
+                    </div>
+                    <h5 class="rejected-title mb-2">We're Sorry</h5>
+                    <p class="rejected-sub mb-3">
+                        This order was rejected and could not be processed. Please contact us for more details.
+                    </p>
+                    <a href="#" class="btn-contact-us">
+                        <i class="bi bi-headset me-2"></i>Contact Us
+                    </a>
                 </div>
                 <div class="items-card">
                     <div class="items-title">Items in this order</div>
@@ -458,5 +476,59 @@ export default {
     margin-top: 0.4rem;
     font-size: 0.95rem;
     font-weight: 600;
+}
+
+.rejected-panel {
+    padding: 2.5rem 1rem;
+}
+
+.rejected-icon-wrap {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: #fef2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rejected-icon-wrap i {
+    font-size: 1.9rem;
+    color: #000000;
+}
+
+.rejected-title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    color: #14332f;
+}
+
+.rejected-sub {
+    font-size: 0.9rem;
+    color: #6b7c7a;
+    line-height: 1.6;
+    max-width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-contact-us {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.4rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: black;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: 0 8px 20px -6px rgba(13, 148, 136, 0.4);
+}
+
+.btn-contact-us:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px -6px rgba(13, 148, 136, 0.5);
 }
 </style>

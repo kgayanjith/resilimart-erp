@@ -23,7 +23,7 @@ export default {
 
     },
     props:{
-        product:Array,
+        product:Object,
         recommendedProducts:Array
     }
 }

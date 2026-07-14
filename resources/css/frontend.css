@@ -86,9 +86,7 @@
     color: #fff;
     font-weight: 500;
 }
-.navbar-nav .nav-link.active:hover {
-    color: #fff !important;
-}
+
 .category-pill {
     font-size: 13px;
     color: #a6a6a6 !important;
@@ -1472,6 +1470,10 @@ span {
     color: #ffffff;
     transform: translateY(-1px);
     box-shadow: 0 10px 24px -6px rgba(13, 148, 136, 0.45);
+}
+.categorypage-wrapper:hover{
+    border-color: #0d9488 !important;
+    transition: 0.3s ease-in-out;
 }
 
 @media (max-width: 575.98px) {

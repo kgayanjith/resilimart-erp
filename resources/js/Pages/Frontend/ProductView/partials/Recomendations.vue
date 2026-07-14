@@ -1,8 +1,8 @@
 <template>
     <main>
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center justify-content-between mt-5">
             <div>
-                <h3 class="">Our Latest Products</h3>
+                <h3 class="">Recommend Products</h3>
             </div>
         </div>
         <div class="row mt-5" v-if="recommendedProducts && recommendedProducts.length">

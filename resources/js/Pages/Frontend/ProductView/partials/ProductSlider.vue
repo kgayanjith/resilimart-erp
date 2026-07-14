@@ -92,7 +92,7 @@ import { mapState, mapActions } from 'vuex';
 export default {
     components: {},
     props: {
-        product: Array
+        product: Object
     },
     data() {
         return {}

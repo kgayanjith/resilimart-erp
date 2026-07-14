@@ -96,6 +96,7 @@ Route::prefix('backend')->group(function () {
             Route::get('/', [SalesController::class, 'index'])->name('sales.index');
             Route::get('/view/{id}', [SalesController::class, 'view'])->name('sale.view');
             Route::patch('/view/status/{id}', [SalesController::class, 'update'])->name('sale.status.update');
+            Route::patch('/view/paymentstatus-paid/{id}', [SalesController::class, 'updatePaymentPaid'])->name('sale.paymentstatus.update');
            
         });
     });

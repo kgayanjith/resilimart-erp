@@ -42,22 +42,42 @@ class SalesController extends Controller
         }
     }
 
-    // public function updatePayment(Request $request, $id)
-    // {
-    //     try {
-    //         $order = Order::findOrFail($id);
+    public function updatePaymentPaid(Request $request, $id)
+    {
+        // dd($request);
+        try {
+            $order = Order::findOrFail($id);
 
-    //         $validated = $request->validate([
-    //             'status' => ['required'],
-    //         ]);
+            $validated = $request->validate([
+                'payment_status' => ['required'],
+            ]);
 
-    //         $order->update($validated);
+            $order->update($validated);
 
-    //         return back()->with('success', 'Order status updated.');
-    //     } catch (\Exception $e) {
-    //         report($e);
+            return back()->with('success', 'Order payment status updated.');
+        } catch (\Exception $e) {
+            report($e);
 
-    //         return back()->with('error', 'Failed to update order status. ' . $e->getMessage());
-    //     }
-    // }
+            return back()->with('error', 'Failed to update order payment status. ' . $e->getMessage());
+        }
+    }
+    public function updatePaymentPending(Request $request, $id)
+    {
+        // dd($request);
+        try {
+            $order = Order::findOrFail($id);
+
+            $validated = $request->validate([
+                'payment_status' => ['required'],
+            ]);
+
+            $order->update($validated);
+
+            return back()->with('success', 'Order payment status updated.');
+        } catch (\Exception $e) {
+            report($e);
+
+            return back()->with('error', 'Failed to update order payment status. ' . $e->getMessage());
+        }
+    }
 }

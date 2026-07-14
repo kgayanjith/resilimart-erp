@@ -24,7 +24,9 @@
                                 :href="route('allproducts')">All Products</Link>
                         </li>
                         <li class="nav-item mx-1">
-                            <Link class="nav-link px-3" href="#">Categories</Link>
+                            <Link class="nav-link px-3" :href="route('category.view')"
+                                :class="{ active: route().current('category.view') || route().current('category.product') }">
+                            Categories</Link>
                         </li>
                         <li class="nav-item mx-1">
                             <Link class="nav-link px-3" :class="{ active: route().current('cart') }"
@@ -63,7 +65,7 @@
                                             <div class="fw-bold dropdown-name">{{ $page.props.customerAuth.user.name }}
                                             </div>
                                             <small class="dropdown-email">{{ $page.props.customerAuth.user.email
-                                            }}</small>
+                                                }}</small>
                                         </div>
                                     </div>
                                 </li>

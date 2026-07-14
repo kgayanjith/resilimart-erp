@@ -1,18 +1,18 @@
 <template>
   <main>
     <NavBar :total-items="totalItems" />
-   <div class="mt-5 pt-4">
-     <slot />
-   </div>
+    <div class="mt-5 pt-4">
+      <slot />
+    </div>
     <Footer />
-  <button class="fab-cart" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-label="Open cart">
-  <i class="fa-solid fa-bag-shopping fab-cart-icon"></i>
-  <span v-if="cartItems.length !== 0" class="fab-cart-badge text-white">
-    {{ totalItems }}
-  </span>
-</button>
-    <div class="offcanvas offcanvas-end" data-bs-backdrop="true" data-bs-scroll="true" tabindex="-1"
-      id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <button class="fab-cart" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-label="Open cart">
+      <i class="fa-solid fa-bag-shopping fab-cart-icon"></i>
+      <span v-if="cartItems.length !== 0" class="fab-cart-badge text-white">
+        {{ totalItems }}
+      </span>
+    </button>
+    <div class="offcanvas offcanvas-end" data-bs-backdrop="true" data-bs-scroll="true" tabindex="-1" id="offcanvasRight"
+      aria-labelledby="offcanvasRightLabel">
       <button type="button" class="btn-close m-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       <div class="offcanvas-body position-relative">
         <div v-if="cartItems.length !== 0">
@@ -42,7 +42,7 @@
               </div>
             </div>
             <div style=" display:flex; flex-direction:column; align-items:flex-end; gap:8px; flex-shrink:0;">
-              <span style="font-size:14px; font-weight:500;">
+              <span style="font-size:14px; font-weight:600;">
                 Rs {{ (item.price * item.quantity).toFixed(2) }}
               </span>
               <button @click="removeItem(item.id)" class="btn btn-sm" style="width:28px; height:28px; border:1px solid #fca5a5;
@@ -55,7 +55,13 @@
         </div>
         <div v-else>
           <div class="cart-notify">
-            <p>No Products added to the cart</p>
+            <div class="cart-empty-icon-wrap mx-auto mb-3">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <h5 class="cart-empty-title mb-2">Your cart is empty</h5>
+            <p class="cart-empty-sub mb-0">
+              Looks like you haven't added anything yet. Start browsing to find something you'll love.
+            </p>
           </div>
         </div>
       </div>
@@ -123,11 +129,49 @@ export default {
     decrease(id) {
       this.$store.dispatch('decreaseItem', id)
     },
-     goCheckout() {
-            this.$inertia.visit(this.route('checkout'));
-        }
+    goCheckout() {
+      this.$inertia.visit(this.route('checkout'));
+    }
   }
 }
 </script>
 
-<style></style>
+<style scoped>
+.cart-notify {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    height: 100%;
+}
+
+.cart-empty-icon-wrap {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: #e6f5f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-empty-icon-wrap i {
+    font-size: 1.9rem;
+    color: #000000;
+}
+
+.cart-empty-title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    color: #14332f;
+}
+
+.cart-empty-sub {
+    font-size: 0.88rem;
+    color: #7c9390;
+    line-height: 1.6;
+    max-width: 260px;
+}
+</style>

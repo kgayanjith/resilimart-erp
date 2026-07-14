@@ -10,6 +10,7 @@
                             <th class="fw-bold" scope="col">Customer Name</th>
                             <th class="fw-bold text-center" scope="col">Payment Type</th>
                             <th class="fw-bold text-center" scope="col">Placed Date</th>
+                            <th class="fw-bold text-center" scope="col">Payment Status</th>
                             <th class="fw-bold text-center" scope="col">Status</th>
                             <th class="fw-bold" scope="col"></th>
                         </tr>
@@ -19,10 +20,16 @@
                             <td class="text-start">{{ sale.order_number }}</td>
                             <td class="text-start">{{ sale.customer.name }}</td>
                             <td class="text-center">
-                                {{ sale.payment_method }}
+                                {{ sale.payment_method === 'cod' ? 'Cash on Delivery' : sale.payment_method ===
+                                    'bank_transfer' ? 'Bank Transfer' : sale.payment_method === 'card' ? 'Credit / Debit Card' : sale.payment_method }}
                             </td>
 
                             <td class="text-center">{{ formatDate(sale.created_at) }}</td>
+                            <td class="text-center payment">
+                                <span class="status-badge" :class="'status-' + sale.payment_status">
+                                    {{ sale.payment_status }}
+                                </span>
+                            </td>
                             <td class="text-center">
                                 <span class="status-badge" :class="'status-' + sale.status">
                                     {{ sale.status }}
@@ -60,6 +67,16 @@ export default {
     },
     props: {
         sales: Array
+    },
+    computed: {
+        paymentMethodLabel(method) {
+            const map = {
+                cod: 'Cash on Delivery',
+                card: 'Credit / Debit Card',
+                bank_transfer: 'Bank Transfer'
+            };
+            return map[method] || method;
+        }
     },
     mounted() {
 
@@ -137,6 +154,14 @@ export default {
 }
 
 .status-confirmed::before {
+    background: #940d0d;
+}
+.status-rejected {
+    background: #fdbbbb;
+    color: #0d9488;
+}
+
+.status-rejected::before {
     background: #0d9488;
 }
 
@@ -187,5 +212,41 @@ export default {
     50% {
         opacity: 0.3;
     }
+}
+.payment .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.payment .status-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-pending {
+    background: #fffbeb;
+    color: #b45309;
+}
+.status-pending::before {
+    background: #b45309;
+}
+
+.status-paid {
+    background: #9afbd0;
+    color: #16a34a;
+}
+.status-paid::before {
+     background: #16a34a;
+  
 }
 </style>

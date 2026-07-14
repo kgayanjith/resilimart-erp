@@ -22,6 +22,8 @@ Route::prefix('/')->group(function () {
     Route::get('/register', [CustomerAuthController::class, 'createRegister'])->name('register.frontend');
     Route::post('/register', [CustomerAuthController::class, 'register'])->name('register.frontend.post');
     Route::get('/about-us', [PageController::class, 'aboutus'])->name('aboutus');
+    Route::get('/categories', [PageController::class, 'categoryPage'])->name('category.view');
+    Route::get('/categories/products/{id}', [PageController::class, 'findProduct'])->name('category.product');
 
     Route::middleware('auth:customer')->group(function () {
         Route::post('/logout', [CustomerAuthController::class, 'logoutfrontend'])->name('logout.frontend');
