@@ -32,7 +32,7 @@
                                         </div>
                                         <div class="col-5">
                                             <div class="img-wrapper-product rounded-4 m-2">
-                                                <img :src="product.media[0]?.original_url" class="w-100 h-100" alt="">
+                                                <img :src="product.media[0]?.original_url" class="w-100 h-100" alt="" loading="lazy">
                                             </div>
                                         </div>
                                     </div>
@@ -58,7 +58,7 @@
                                     <span class="white-shade py-2 px-4 rounded-pill">Featured</span>
                                 </div>
                                 <div class="image-wrapper text-center">
-                                    <img :src="product.media[0]?.original_url" class="w-50" alt="">
+                                    <img :src="product.media[0]?.original_url" class="w-50" alt="" loading="lazy">
                                 </div>
                                 <div class="description-box bg-white p-3 rounded-4 shadow-sm">
                                     <h3 class="">{{ product.name }}</h3>

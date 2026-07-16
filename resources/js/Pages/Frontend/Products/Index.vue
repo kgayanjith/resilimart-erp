@@ -1,6 +1,6 @@
 <template>
     <AppLayout>
-        <div class="mt-4 container-fluid px-lg-5">
+        <div class="mt-4 container-fluid px-lg-5 mb-5">
             <div>
                 <h3 class="">All Products</h3>
             </div>

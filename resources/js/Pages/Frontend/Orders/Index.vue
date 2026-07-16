@@ -80,6 +80,9 @@
                                 @click="confirmCancel(order.id)">Cancel</button>
                             <button class="btn-reorder"
                                 v-if="order.status === 'delivered' || order.status === 'cancelled'">Reorder</button>
+                            <button @click="paynow(order.id)" class="btn-reorder bg-primary border-primary"
+                                v-if="order.payment_method === 'card' && order.payment_status === 'pending'">Pay
+                                Now</button>
                         </div>
                     </div>
 
@@ -220,6 +223,9 @@ export default {
         cancelOrder(id) {
             this.$inertia.patch(route('order.cancel', id));
             this.$refs.cancelModalClose.click();
+        },
+        paynow(id){
+            this.$inertia.visit(route('payment.show', id))
         }
     },
 };

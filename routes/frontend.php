@@ -5,6 +5,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\PageController;
+use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\ProductViewController;
 use App\Http\Controllers\Frontend\ProfileController;
@@ -30,11 +31,11 @@ Route::prefix('/')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
-        Route::get('/cart/checkout',[CartController::class, 'checkoutPage'])->name('checkout');
+        Route::get('/cart/checkout', [CartController::class, 'checkoutPage'])->name('checkout');
         Route::post('/cart/checkout', [OrderController::class, 'store'])->name('checkout.store');
         Route::get('/orders', [OrderController::class, 'show'])->name('orders.show');
         Route::get('/orders/{id}', [OrderController::class, 'trackOrder'])->name('order.track');
         Route::patch('/orders/{id}/cancel', [OrderController::class, 'cancelOrder'])->name('order.cancel');
+        Route::get('/cart/checkout/intent/{order}', [PaymentController::class, 'show'])->name('payment.show');
     });
-    
 });

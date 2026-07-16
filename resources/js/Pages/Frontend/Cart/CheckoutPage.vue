@@ -59,7 +59,7 @@
                                     <span>Cash on Delivery</span>
                                 </label>
                                 <label class="payment-option" :class="{ selected: form.payment === 'card' }" >
-                                    <input type="radio" name="payment" value="card" @change="form.payment = 'card'" disabled>
+                                    <input type="radio" name="payment" value="card" @change="form.payment = 'card'">
                                     <i class="fa-regular fa-credit-card"></i>
                                     <span>Credit / Debit Card</span>
                                 </label>
@@ -233,6 +233,7 @@ export default {
                     this.show();
                 }
             });
+
         },
         show() {
             this.$refs.successTrigger.click();

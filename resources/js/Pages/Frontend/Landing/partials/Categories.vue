@@ -11,16 +11,16 @@
         <div class="category-slider">
             <div class="swiper mySwiper categorySlider" v-if="categories && categories.length">
                 <div class="swiper-wrapper">
-                    <Link class="swiper-slide rounded-4" v-for="category in categories" :key="category.id">
+                    <div @click="categoryProductView(category.id)" class="swiper-slide rounded-4" v-for="category in categories" :key="category.id">
                     <div class="wrapper">
                         <div class="cimage-wrapper p-3">
-                            <img :src="category.media[0]?.original_url" class="w-100 h-100" alt="">
+                            <img :src="category.media[0]?.original_url" class="w-100 h-100" alt="" loading="lazy">
                         </div>
                         <div class="category-name text-center">
                             <p class="text-black">{{ category.name }}</p>
                         </div>
                     </div>
-                    </Link>
+                    </div>
                 </div>
                 <!-- <div class="swiper-pagination"></div> -->
                 <!-- <div class="swiper-button-next"></div>
@@ -92,6 +92,12 @@ export default {
                 },
             },
         });
+    },
+    methods:{
+        categoryProductView(id) {
+            this.$inertia.visit(route('category.product', id));
+            // console.log(id);
+        }
     }
 }
 </script>
