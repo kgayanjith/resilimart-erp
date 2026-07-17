@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class CustomerAuthController extends Controller
 {
-     public function index()
+    public function index()
     {
         return Inertia::render('Frontend/Auth/Login');
     }
@@ -60,19 +62,33 @@ class CustomerAuthController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $customer = Customer::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'],
-            'address' => $validated['address'],
-            'password' => Hash::make($validated['password']),
-        ]);
+        try {
+            $customer = Customer::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
+                'address' => $validated['address'],
+                'password' => Hash::make($validated['password']),
+            ]);
 
-        Auth::guard('customer')->login($customer);
+            Auth::guard('customer')->login($customer);
 
-        $request->session()->regenerate();
+            $request->session()->regenerate();
 
-        return redirect()->route('login.frontend');
+            try {
+                Mail::to($customer->email)->send(new WelcomeMail($customer));
+            } catch (\Exception $e) {
+                \Log::error('Welcome email failed to send: ' . $e->getMessage());
+            }
+
+            return redirect()->route('login.frontend');
+        } catch (\Exception $e) {
+            \Log::error('Customer registration failed: ' . $e->getMessage());
+
+            return back()->withErrors([
+                'registration' => 'Something went wrong while creating your account. Please try again.',
+            ])->withInput();
+        }
     }
 
     public function logoutfrontend(Request $request)

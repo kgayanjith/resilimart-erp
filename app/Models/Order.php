@@ -26,6 +26,7 @@ class Order extends Model
         'subtotal',
         'vat_amount',
         'total',
+        'stripe_payment_intent_id',
     ];
 
     protected $casts = [
@@ -40,6 +41,11 @@ class Order extends Model
     }
 
     public function items(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
     }

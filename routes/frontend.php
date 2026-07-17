@@ -9,6 +9,10 @@ use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\ProductViewController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Mail\OrderPlaceMail;
+use App\Models\Customer;
+use App\Models\Order;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,6 +29,18 @@ Route::prefix('/')->group(function () {
     Route::get('/about-us', [PageController::class, 'aboutus'])->name('aboutus');
     Route::get('/categories', [PageController::class, 'categoryPage'])->name('category.view');
     Route::get('/categories/products/{id}', [PageController::class, 'findProduct'])->name('category.product');
+    Route::get('/test-mail', function () {
+        $user = Customer::latest()->first();
+
+        // dd($order);
+
+        if (! $user) {
+            return 'No orders found in database.';
+        }
+
+        return view('emails.register', ['user' => $user]);
+    });
+
 
     Route::middleware('auth:customer')->group(function () {
         Route::post('/logout', [CustomerAuthController::class, 'logoutfrontend'])->name('logout.frontend');
@@ -37,5 +53,6 @@ Route::prefix('/')->group(function () {
         Route::get('/orders/{id}', [OrderController::class, 'trackOrder'])->name('order.track');
         Route::patch('/orders/{id}/cancel', [OrderController::class, 'cancelOrder'])->name('order.cancel');
         Route::get('/cart/checkout/intent/{order}', [PaymentController::class, 'show'])->name('payment.show');
+        Route::get('/payment-success', [PaymentController::class, 'success'])->name('payment.success');
     });
 });
