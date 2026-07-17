@@ -63,7 +63,7 @@
                                 <span class="payment-badge payment-pending rounded-pill text-uppercase">{{
                                     sale.payment_status }}</span>
                             </div>
-                            <button class="btn-mark-paid w-100 mt-3" type="button" @click="updatePaymentPaid()">
+                            <button class="btn btn-primary rounded-3 w-100 mt-3" type="button" @click="updatePaymentPaid()">
                                 <i class="fa-solid fa-check me-1"></i>{{ sale.payment_status === 'paid' ? 'Mark as Pending' : 'Mark as Paid'}}
                             </button>
                         </div>

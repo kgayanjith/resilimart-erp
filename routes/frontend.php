@@ -29,17 +29,17 @@ Route::prefix('/')->group(function () {
     Route::get('/about-us', [PageController::class, 'aboutus'])->name('aboutus');
     Route::get('/categories', [PageController::class, 'categoryPage'])->name('category.view');
     Route::get('/categories/products/{id}', [PageController::class, 'findProduct'])->name('category.product');
-    Route::get('/test-mail', function () {
-        $user = Customer::latest()->first();
+    // Route::get('/test-mail', function () {
+    //     $user = Customer::latest();
 
-        // dd($order);
+    //    dd($user);
 
-        if (! $user) {
-            return 'No orders found in database.';
-        }
+    //     if (! $user) {
+    //         return 'No orders found in database.';
+    //     }
 
-        return view('emails.register', ['user' => $user]);
-    });
+    //     return view('emails.register', ['user' => $user]);
+    // });
 
 
     Route::middleware('auth:customer')->group(function () {
